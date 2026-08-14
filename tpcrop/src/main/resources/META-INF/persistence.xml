@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="com.ntp_tpcrop_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.ntp.tpcrop.entity.Tasks</class>
+    <class>com.ntp.tpcrop.entity.Articles</class>
+    <class>com.ntp.tpcrop.entity.Likes</class>
+    <class>com.ntp.tpcrop.entity.Comments</class>
+    <class>com.ntp.tpcrop.entity.Seasons</class>
+    <class>com.ntp.tpcrop.entity.Plots</class>
+    <class>com.ntp.tpcrop.entity.TaskCompletions</class>
+    <class>com.ntp.tpcrop.entity.Crops</class>
+    <class>com.ntp.tpcrop.entity.Users</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tpcrop"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="postgres"/>
+    </properties>
+  </persistence-unit>
+</persistence>
