@@ -5,6 +5,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
     avatar VARCHAR(255) NOT NULL DEFAULT 'https://res.cloudinary.com/dkzzyue98/image/upload/v1767704642/avatar_ipfsn6.jpg',
     active BOOLEAN DEFAULT TRUE,
     role user_role NOT NULL DEFAULT 'FARMER',
