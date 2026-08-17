@@ -1,20 +1,17 @@
 package com.ntp.tpcrop.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.KeyLengthException;
 import com.ntp.tpcrop.dto.request.user.UserLoginDto;
 import com.ntp.tpcrop.dto.request.user.UserRegisterDto;
 import com.ntp.tpcrop.entity.Users;
