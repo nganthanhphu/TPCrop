@@ -51,7 +51,7 @@ public class Seasons implements Serializable {
     @Column(name = "end_year")
     private int endYear;
     @JoinColumn(name = "crop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Crops cropId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "seasonId", fetch = FetchType.LAZY)
     private List<Tasks> tasksList;
