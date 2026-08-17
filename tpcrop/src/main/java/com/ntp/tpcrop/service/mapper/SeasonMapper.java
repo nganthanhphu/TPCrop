@@ -13,6 +13,8 @@ public interface SeasonMapper {
     @Mapping(source = "cropId", target = "crop")
     SeasonViewDto toDto(Seasons season);
 
+
+    @Mapping(source = "crop", target = "cropId")
     Seasons toEntity(SeasonViewDto seasonViewDto);
 
 }

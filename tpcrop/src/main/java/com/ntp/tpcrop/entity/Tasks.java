@@ -54,7 +54,7 @@ public class Tasks implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taskId", fetch = FetchType.LAZY)
     private List<TaskCompletions> taskCompletionsList;
     @JoinColumn(name = "season_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Seasons seasonId;
 
     public Tasks() {
