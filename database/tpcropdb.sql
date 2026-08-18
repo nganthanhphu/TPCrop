@@ -52,7 +52,8 @@ CREATE TABLE task_completions (
     task_id BIGINT NOT NULL,
     time_completed TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_tc_plot FOREIGN KEY (plot_id) REFERENCES plots(id) ON DELETE CASCADE,
-    CONSTRAINT fk_tc_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+    CONSTRAINT fk_tc_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT uk_tc_plot_task UNIQUE (plot_id, task_id)
 );
 
 CREATE TABLE articles (
