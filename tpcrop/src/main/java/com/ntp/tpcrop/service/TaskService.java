@@ -8,5 +8,5 @@ import com.ntp.tpcrop.dto.response.TaskViewDto;
 
 public interface TaskService {
     TaskViewDto addTask(TaskCreateDto t);
-    Page<TaskViewDto> getTasks(Long seasonId, Long cropId, Pageable pageable);
+    Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable);
 }

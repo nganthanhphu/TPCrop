@@ -23,17 +23,17 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @PostMapping("/tasks")
+    @PostMapping("/secure/manager/tasks")
     public ResponseEntity<TaskViewDto> addTask(@RequestBody TaskCreateDto t) {
         TaskViewDto createdTask = taskService.addTask(t);
 
         return ResponseEntity.status(201).body(createdTask);
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/secure/manager/tasks")
     public ResponseEntity<Page<TaskViewDto>> getTasks(@RequestParam(required = false) Long seasonId,
             @RequestParam(required = true) Long cropId, Pageable pageable) {
-        Page<TaskViewDto> tasks = taskService.getTasks(seasonId, cropId, pageable);
+        Page<TaskViewDto> tasks = taskService.getTasksByManager(seasonId, cropId, pageable);
         return ResponseEntity.ok(tasks);
     }
 
