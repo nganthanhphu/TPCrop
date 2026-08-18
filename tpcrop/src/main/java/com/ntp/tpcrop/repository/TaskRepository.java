@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface TaskRepository extends JpaRepository<Tasks, Long> {
 
     @Query("SELECT t FROM Tasks t INNER JOIN t.seasonId s WHERE (t.seasonId.id = :seasonId OR :seasonId IS NULL) AND (s.cropId.id = :cropId OR :cropId IS NULL) ORDER BY t.startDate asc")
-    Page<Tasks> findBySeasonId_IdAndSeasonId_CropId_IdOrderByStartDateAsc(Long seasonId, Long cropId,
+    Page<Tasks> getTasks(Long seasonId, Long cropId,
             Pageable pageable);
 
 }
