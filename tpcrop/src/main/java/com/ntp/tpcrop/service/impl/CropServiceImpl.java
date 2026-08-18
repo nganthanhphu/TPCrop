@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.crop.CropCreateDto;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class CropServiceImpl implements CropService {
 
     private final CropRepository cropRepository;
@@ -23,8 +26,13 @@ public class CropServiceImpl implements CropService {
         Crops crop = new Crops();
         crop.setName(c.name());
         crop.setIsSupportChatbot(false);
-        
+
         return cropMapper.toDto(cropRepository.save(crop));
+    }
+
+    @Override
+    public Page<CropViewDto> getCrops(String name, Pageable pageable) {
+        return cropRepository.findByNameIgnoreCaseContaining(name, pageable).map(cropMapper::toDto);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +14,8 @@ import com.ntp.tpcrop.service.CropService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/api")
@@ -26,6 +29,12 @@ public class CropController {
         CropViewDto createdCrop = cropService.addCrop(c);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCrop);
     }
-    
+
+    @GetMapping("/crops")
+    public ResponseEntity<Page<CropViewDto>> getCrops(@RequestParam(required = false, defaultValue = "") String name,
+            Pageable pageable) {
+        Page<CropViewDto> crops = cropService.getCrops(name, pageable);
+        return ResponseEntity.ok(crops);
+    }
 
 }
