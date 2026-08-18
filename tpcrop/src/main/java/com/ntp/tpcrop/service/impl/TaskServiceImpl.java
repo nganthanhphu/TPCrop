@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.task.TaskCreateDto;
@@ -39,6 +41,12 @@ public class TaskServiceImpl implements TaskService {
         task.setSeasonId(season);
 
         return taskMapper.toDto(taskRepository.save(task));
+    }
+
+    @Override
+    public Page<TaskViewDto> getTasks(Long seasonId, Long cropId, Pageable pageable) {
+        return taskRepository.findBySeasonId_IdAndSeasonId_CropId_IdOrderByStartDateAsc(seasonId, cropId, pageable)
+                .map(taskMapper::toDto);
     }
 
 }
