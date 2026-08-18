@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
 import com.ntp.tpcrop.dto.response.TaskViewDto;
+import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 import com.ntp.tpcrop.service.TaskService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,13 @@ public class TaskController {
     public ResponseEntity<Page<TaskViewDto>> getTasks(@RequestParam(required = false) Long seasonId,
             @RequestParam(required = true) Long cropId, Pageable pageable) {
         Page<TaskViewDto> tasks = taskService.getTasksByManager(seasonId, cropId, pageable);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/secure/tasks")
+    public ResponseEntity<Page<TaskDetailViewDto>> getDetailedTasks(@RequestParam(required = true) Long plotId,
+            @RequestParam(required = false) Boolean isCompleted, Pageable pageable) {
+        Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, isCompleted, pageable);
         return ResponseEntity.ok(tasks);
     }
 

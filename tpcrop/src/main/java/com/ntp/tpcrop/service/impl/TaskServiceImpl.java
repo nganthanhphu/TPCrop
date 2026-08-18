@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
 import com.ntp.tpcrop.dto.response.TaskViewDto;
+import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 import com.ntp.tpcrop.entity.Seasons;
 import com.ntp.tpcrop.entity.Tasks;
 import com.ntp.tpcrop.repository.SeasonRepository;
@@ -47,6 +48,11 @@ public class TaskServiceImpl implements TaskService {
     public Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable) {
         return taskRepository.getTasks(seasonId, cropId, pageable)
                 .map(taskMapper::toDto);
+    }
+
+    @Override
+    public Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable) {
+        return taskRepository.getDetailedTasks(plotId, isCompleted, pageable);
     }
 
 }
