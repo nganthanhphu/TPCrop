@@ -1,17 +1,27 @@
 package com.ntp.tpcrop.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ntp.tpcrop.dto.request.TaskCompletionCreateDto;
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
 import com.ntp.tpcrop.dto.response.TaskViewDto;
+import com.ntp.tpcrop.dto.response.TaskCompletionViewDto;
 import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
+import com.ntp.tpcrop.entity.Plots;
 import com.ntp.tpcrop.entity.Seasons;
+import com.ntp.tpcrop.entity.TaskCompletions;
 import com.ntp.tpcrop.entity.Tasks;
+import com.ntp.tpcrop.repository.PlotRepository;
 import com.ntp.tpcrop.repository.SeasonRepository;
+import com.ntp.tpcrop.repository.TaskCompletionRepository;
 import com.ntp.tpcrop.repository.TaskRepository;
 import com.ntp.tpcrop.service.TaskService;
+import com.ntp.tpcrop.service.mapper.TaskCompletionMapper;
 import com.ntp.tpcrop.service.mapper.TaskMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +31,11 @@ import lombok.RequiredArgsConstructor;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final PlotRepository plotRepository;
     private final SeasonRepository seasonRepository;
+    private final TaskCompletionRepository taskCompletionRepository;
     private final TaskMapper taskMapper;
+    private final TaskCompletionMapper taskCompletionMapper;
 
     @Override
     public TaskViewDto addTask(TaskCreateDto t) {
@@ -53,6 +66,26 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable) {
         return taskRepository.getDetailedTasks(plotId, isCompleted, pageable);
+    }
+
+    @Override
+    public TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t) {
+        Tasks task = taskRepository.findById(t.taskId()).get();
+        if (task.getStartDate().isAfter(LocalDate.now())) {
+            throw new ExceptionInInitializerError("Task cannot be completed before its start date.");
+        }
+
+        Plots plot = plotRepository.findById(t.plotId()).get();
+
+        if (!plot.getCropId().getId().equals(task.getSeasonId().getCropId().getId())) {
+            throw new ExceptionInInitializerError("Plot's crop does not match the task's season crop.");
+        }
+
+        TaskCompletions taskCompletion = new TaskCompletions();
+        taskCompletion.setTaskId(taskRepository.getReferenceById(t.taskId()));
+        taskCompletion.setPlotId(plotRepository.getReferenceById(t.plotId()));
+        taskCompletion.setTimeCompleted(LocalDateTime.now());
+        return taskCompletionMapper.toDto(taskCompletionRepository.save(taskCompletion));
     }
 
 }

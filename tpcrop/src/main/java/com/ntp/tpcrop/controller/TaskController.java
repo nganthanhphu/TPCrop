@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ntp.tpcrop.dto.request.TaskCompletionCreateDto;
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
 import com.ntp.tpcrop.dto.response.TaskViewDto;
+import com.ntp.tpcrop.dto.response.TaskCompletionViewDto;
 import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 import com.ntp.tpcrop.service.TaskService;
 
@@ -44,5 +46,13 @@ public class TaskController {
         Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, isCompleted, pageable);
         return ResponseEntity.ok(tasks);
     }
+
+    @PostMapping("/secure/task-completions")
+    public ResponseEntity<TaskCompletionViewDto> completeTask(@RequestBody TaskCompletionCreateDto t) {
+        TaskCompletionViewDto createdTaskCompletion = taskService.addTaskCompletion(t);
+
+        return ResponseEntity.status(201).body(createdTaskCompletion);
+    }
+    
 
 }
