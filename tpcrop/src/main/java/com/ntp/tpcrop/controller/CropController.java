@@ -24,7 +24,7 @@ public class CropController {
 
     private final CropService cropService;
 
-    @PostMapping("/crops")
+    @PostMapping("/secure/manager/crops")
     public ResponseEntity<CropViewDto> addCrop(@RequestBody CropCreateDto c) {
         CropViewDto createdCrop = cropService.addCrop(c);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCrop);

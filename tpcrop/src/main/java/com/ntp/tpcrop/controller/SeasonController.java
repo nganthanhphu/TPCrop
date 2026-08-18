@@ -24,7 +24,7 @@ public class SeasonController {
 
     private final SeasonService seasonService;
 
-    @PostMapping("/seasons")
+    @PostMapping("/secure/manager/seasons")
     public ResponseEntity<SeasonViewDto> addSeason(@RequestBody SeasonCreateDto s) {
         SeasonViewDto createdSeason = seasonService.addSeason(s);
         return ResponseEntity.status(201).body(createdSeason);
