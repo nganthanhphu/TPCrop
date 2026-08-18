@@ -32,7 +32,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public ResponseEntity<Page<TaskViewDto>> getTasks(@RequestParam(required = false) Long seasonId,
-            @RequestParam(required = false) Long cropId, Pageable pageable) {
+            @RequestParam(required = true) Long cropId, Pageable pageable) {
         Page<TaskViewDto> tasks = taskService.getTasks(seasonId, cropId, pageable);
         return ResponseEntity.ok(tasks);
     }
