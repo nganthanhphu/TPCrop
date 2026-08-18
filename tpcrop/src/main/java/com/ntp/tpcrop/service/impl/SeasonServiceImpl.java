@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.season.SeasonCreateDto;
@@ -32,6 +34,12 @@ public class SeasonServiceImpl implements SeasonService {
         season.setCropId(crop);
 
         return seasonMapper.toDto(seasonRepository.save(season));
+    }
+
+    @Override
+    public Page<SeasonViewDto> getSeasons(Long cropId, Pageable pageable) {
+        return seasonRepository.getSeasons(cropId, pageable)
+                .map(seasonMapper::toDto);
     }
 
 }
