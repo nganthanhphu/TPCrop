@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ntp.tpcrop.dto.request.task.TaskCreateDto;
-import com.ntp.tpcrop.dto.response.task.TaskViewDto;
+import com.ntp.tpcrop.dto.request.TaskCreateDto;
+import com.ntp.tpcrop.dto.response.TaskViewDto;
 import com.ntp.tpcrop.entity.Seasons;
 import com.ntp.tpcrop.entity.Tasks;
 import com.ntp.tpcrop.repository.SeasonRepository;

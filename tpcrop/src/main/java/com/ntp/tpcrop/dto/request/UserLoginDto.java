@@ -1,4 +1,4 @@
-package com.ntp.tpcrop.dto.request.user;
+package com.ntp.tpcrop.dto.request;
 
 public record UserLoginDto(
     String username,

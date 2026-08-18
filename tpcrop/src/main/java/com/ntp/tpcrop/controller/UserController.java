@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nimbusds.jose.JOSEException;
-import com.ntp.tpcrop.dto.request.user.UserLoginDto;
-import com.ntp.tpcrop.dto.request.user.UserRegisterDto;
+import com.ntp.tpcrop.dto.request.UserLoginDto;
+import com.ntp.tpcrop.dto.request.UserRegisterDto;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.service.UserService;
 import com.ntp.tpcrop.util.JwtUtil;

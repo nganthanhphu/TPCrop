@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import com.ntp.tpcrop.dto.response.task.TaskViewDto;
+import com.ntp.tpcrop.dto.response.TaskViewDto;
 import com.ntp.tpcrop.entity.Tasks;
 
 @Mapper(componentModel = "spring", uses = {SeasonMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)

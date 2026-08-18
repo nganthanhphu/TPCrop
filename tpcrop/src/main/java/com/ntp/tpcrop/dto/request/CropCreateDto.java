@@ -1,4 +1,4 @@
-package com.ntp.tpcrop.dto.request.crop;
+package com.ntp.tpcrop.dto.request;
 
 public record CropCreateDto(
     String name

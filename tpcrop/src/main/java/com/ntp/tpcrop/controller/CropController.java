@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ntp.tpcrop.dto.request.crop.CropCreateDto;
-import com.ntp.tpcrop.dto.response.crop.CropViewDto;
+import com.ntp.tpcrop.dto.request.CropCreateDto;
+import com.ntp.tpcrop.dto.response.CropViewDto;
 import com.ntp.tpcrop.service.CropService;
 
 import lombok.RequiredArgsConstructor;

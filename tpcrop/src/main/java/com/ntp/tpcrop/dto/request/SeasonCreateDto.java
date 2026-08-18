@@ -1,4 +1,4 @@
-package com.ntp.tpcrop.dto.request.season;
+package com.ntp.tpcrop.dto.request;
 
 public record SeasonCreateDto(
     String name,

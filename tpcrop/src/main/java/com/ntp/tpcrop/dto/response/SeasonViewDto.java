@@ -1,6 +1,4 @@
-package com.ntp.tpcrop.dto.response.season;
-
-import com.ntp.tpcrop.dto.response.crop.CropViewDto;
+package com.ntp.tpcrop.dto.response;
 
 public record SeasonViewDto(
     Long id,

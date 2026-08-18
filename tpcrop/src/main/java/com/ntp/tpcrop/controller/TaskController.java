@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ntp.tpcrop.dto.request.task.TaskCreateDto;
-import com.ntp.tpcrop.dto.response.task.TaskViewDto;
+import com.ntp.tpcrop.dto.request.TaskCreateDto;
+import com.ntp.tpcrop.dto.response.TaskViewDto;
 import com.ntp.tpcrop.service.TaskService;
 
 import lombok.RequiredArgsConstructor;

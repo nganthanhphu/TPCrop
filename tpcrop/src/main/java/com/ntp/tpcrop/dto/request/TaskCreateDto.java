@@ -1,4 +1,4 @@
-package com.ntp.tpcrop.dto.request.task;
+package com.ntp.tpcrop.dto.request;
 
 import java.time.LocalDate;
 

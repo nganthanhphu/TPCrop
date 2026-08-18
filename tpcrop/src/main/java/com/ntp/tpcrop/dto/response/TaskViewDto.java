@@ -1,8 +1,6 @@
-package com.ntp.tpcrop.dto.response.task;
+package com.ntp.tpcrop.dto.response;
 
 import java.time.LocalDate;
-
-import com.ntp.tpcrop.dto.response.season.SeasonViewDto;
 
 public record TaskViewDto(
     Long id,

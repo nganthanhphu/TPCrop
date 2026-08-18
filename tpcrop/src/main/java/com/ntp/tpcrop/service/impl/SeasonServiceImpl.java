@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ntp.tpcrop.dto.request.season.SeasonCreateDto;
-import com.ntp.tpcrop.dto.response.season.SeasonViewDto;
+import com.ntp.tpcrop.dto.request.SeasonCreateDto;
+import com.ntp.tpcrop.dto.response.SeasonViewDto;
 import com.ntp.tpcrop.entity.Crops;
 import com.ntp.tpcrop.entity.Seasons;
 import com.ntp.tpcrop.repository.CropRepository;

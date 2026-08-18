@@ -1,4 +1,4 @@
-package com.ntp.tpcrop.dto.response.crop;
+package com.ntp.tpcrop.dto.response;
 
 public record CropViewDto(
     Long id,

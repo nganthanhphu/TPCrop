@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.ntp.tpcrop.dto.request.user.UserRegisterDto;
+import com.ntp.tpcrop.dto.request.UserRegisterDto;
 import com.ntp.tpcrop.entity.Users;
 
 public interface UserService extends UserDetailsService {

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ntp.tpcrop.dto.request.season.SeasonCreateDto;
-import com.ntp.tpcrop.dto.response.season.SeasonViewDto;
+import com.ntp.tpcrop.dto.request.SeasonCreateDto;
+import com.ntp.tpcrop.dto.response.SeasonViewDto;
 import com.ntp.tpcrop.service.SeasonService;
 
 import lombok.RequiredArgsConstructor;
