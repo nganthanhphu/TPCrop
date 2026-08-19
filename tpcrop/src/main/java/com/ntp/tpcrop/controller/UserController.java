@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nimbusds.jose.JOSEException;
 import com.ntp.tpcrop.dto.request.UserLoginDto;
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
+import com.ntp.tpcrop.dto.response.UserViewDto;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.service.UserService;
 import com.ntp.tpcrop.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequestMapping("/api")
@@ -53,6 +55,13 @@ public class UserController {
         } catch (JOSEException e) {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to generate token"));
         }
+    }
+
+    @GetMapping("/secure/profile")
+    public ResponseEntity<UserViewDto> getMethodName() {
+        UserViewDto currentUser = userService.getCurrentUser();
+
+        return ResponseEntity.ok(currentUser);
     }
 
 }

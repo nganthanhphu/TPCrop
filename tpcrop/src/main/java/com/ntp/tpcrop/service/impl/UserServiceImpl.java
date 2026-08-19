@@ -13,11 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
+import com.ntp.tpcrop.dto.response.UserViewDto;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.repository.UserRepository;
 import com.ntp.tpcrop.security.CustomUserDetails;
 import com.ntp.tpcrop.service.UserService;
+import com.ntp.tpcrop.service.mapper.UserMapper;
 import com.ntp.tpcrop.util.CloudinaryUtil;
+import com.ntp.tpcrop.util.UserUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +33,10 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final CloudinaryUtil cloudinaryUtil;
+
+    private final UserMapper userMapper;
+
+    private final UserUtil userUtil;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -79,6 +86,15 @@ public class UserServiceImpl implements UserService {
             user.setActive(true);
 
         return this.userRepository.save(user);
+    }
+
+    @Override
+    public UserViewDto getCurrentUser() {
+        Long currentUserId = userUtil.getCurrentUser().getId();
+        Users user = userRepository.findById(currentUserId).get();
+
+        return userMapper.toDto(user);
+
     }
 
 }
