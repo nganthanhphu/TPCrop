@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.TaskCompletionCreateDto;
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
+import com.ntp.tpcrop.dto.request.TaskUpdateDto;
 import com.ntp.tpcrop.dto.response.TaskViewDto;
 import com.ntp.tpcrop.dto.response.TaskCompletionViewDto;
 import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
@@ -41,9 +42,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskViewDto addTask(TaskCreateDto t) {
         Seasons season = seasonRepository.findById(t.seasonId()).get();
 
-        // Check if task's start date is within the season's start year and end year
-        if (t.startDate().getYear() < season.getStartYear() || t.startDate().getYear() > season.getEndYear()
-                || t.endDate().getYear() < season.getStartYear() || t.endDate().getYear() > season.getEndYear()) {
+        if (!validateTaskDates(t.startDate(), t.endDate(), season)) {
             throw new IllegalArgumentException(
                     "Task's start date and end date must be within the season's start year and end year.");
         }
@@ -86,6 +85,44 @@ public class TaskServiceImpl implements TaskService {
         taskCompletion.setPlotId(plotRepository.getReferenceById(t.plotId()));
         taskCompletion.setTimeCompleted(LocalDateTime.now());
         return taskCompletionMapper.toDto(taskCompletionRepository.save(taskCompletion));
+    }
+
+    @Override
+    public TaskViewDto updateTask(Long id, TaskUpdateDto taskUpdateDto) {
+        Tasks task = taskRepository.findById(id).get();
+        Seasons season = task.getSeasonId();
+
+        if (taskUpdateDto.startDate() != null) {
+            if (!validateTaskDates(taskUpdateDto.startDate(), task.getEndDate(), season)) {
+                throw new IllegalArgumentException(
+                        "Task's start date must be within the season's start year and end year.");
+            }
+        }
+
+        if (taskUpdateDto.endDate() != null) {
+            if (!validateTaskDates(task.getStartDate(), taskUpdateDto.endDate(), season)) {
+                throw new IllegalArgumentException(
+                        "Task's end date must be within the season's start year and end year.");
+            }
+        }
+
+        taskMapper.updateEntityFromDto(taskUpdateDto, task);
+
+        return taskMapper.toDto(taskRepository.save(task));
+    }
+
+    @Override
+    public boolean deleteTask(Long id) {
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validateTaskDates(LocalDate startDate, LocalDate endDate, Seasons season) {
+        return !(startDate.getYear() < season.getStartYear() || startDate.getYear() > season.getEndYear()
+                || endDate.getYear() < season.getStartYear() || endDate.getYear() > season.getEndYear());
     }
 
 }
