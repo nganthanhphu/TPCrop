@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
+import com.ntp.tpcrop.dto.request.UserUpdateDto;
 import com.ntp.tpcrop.dto.response.UserViewDto;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.repository.UserRepository;
@@ -95,6 +96,36 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDto(user);
 
+    }
+
+    @Override
+    public UserViewDto updateCurrentUser(UserUpdateDto u) throws IOException {
+        Long currentUserId = userUtil.getCurrentUser().getId();
+        Users user = userRepository.findById(currentUserId).get();
+
+        if (u.oldPassword() != null && !u.oldPassword().isEmpty()) {
+            if (!passwordEncoder.matches(u.oldPassword(), user.getPassword())) {
+                throw new IllegalArgumentException("Old password is incorrect.");
+            }
+            if (u.password() != null && !u.password().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(u.password()));
+            }
+        }
+
+        if (u.email() != null) {
+            user.setEmail(u.email());
+        }
+
+        if (u.fullName() != null) {
+            user.setFullName(u.fullName());
+        }
+
+        if (u.avatar() != null && !u.avatar().isEmpty()) {
+            String avatarUrl = cloudinaryUtil.uploadFile(u.avatar().getBytes());
+            user.setAvatar(avatarUrl);
+        }
+
+        return userMapper.toDto(userRepository.save(user));
     }
 
 }

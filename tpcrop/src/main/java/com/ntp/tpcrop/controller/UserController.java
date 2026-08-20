@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nimbusds.jose.JOSEException;
 import com.ntp.tpcrop.dto.request.UserLoginDto;
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
+import com.ntp.tpcrop.dto.request.UserUpdateDto;
 import com.ntp.tpcrop.dto.response.UserLoginViewDto;
 import com.ntp.tpcrop.dto.response.UserViewDto;
 import com.ntp.tpcrop.entity.Users;
@@ -69,6 +71,12 @@ public class UserController {
         UserViewDto currentUser = userService.getCurrentUser();
 
         return ResponseEntity.ok(currentUser);
+    }
+
+    @PatchMapping(path = "/secure/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserViewDto> updateCurrentUser(@ModelAttribute UserUpdateDto u) throws IOException {
+        UserViewDto updatedUser = userService.updateCurrentUser(u);
+        return ResponseEntity.ok(updatedUser);
     }
 
 }
