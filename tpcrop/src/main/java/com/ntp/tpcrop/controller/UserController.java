@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nimbusds.jose.JOSEException;
 import com.ntp.tpcrop.dto.request.UserLoginDto;
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
+import com.ntp.tpcrop.dto.response.UserLoginViewDto;
 import com.ntp.tpcrop.dto.response.UserViewDto;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.service.UserService;
+import com.ntp.tpcrop.service.mapper.UserMapper;
 import com.ntp.tpcrop.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class UserController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final UserMapper userMapper;
 
     @PostMapping("/auth")
     public ResponseEntity<?> login(@RequestBody UserLoginDto u) {
@@ -37,7 +40,9 @@ public class UserController {
         if (user != null) {
             try {
                 String token = jwtUtil.generateToken(user);
-                return ResponseEntity.ok().body(Map.of("token", token));
+                UserViewDto userViewDto = userMapper.toDto(user);
+                UserLoginViewDto res = new UserLoginViewDto(userViewDto, token);
+                return ResponseEntity.ok().body(res);
             } catch (JOSEException e) {
                 return ResponseEntity.status(500).body(Map.of("error", "Failed to generate token"));
             }
@@ -51,7 +56,9 @@ public class UserController {
         Users user = this.userService.addUser(u);
         try {
             String token = jwtUtil.generateToken(user);
-            return ResponseEntity.ok().body(Map.of("token", token));
+            UserViewDto userViewDto = userMapper.toDto(user);
+            UserLoginViewDto res = new UserLoginViewDto(userViewDto, token);
+            return ResponseEntity.ok().body(res);
         } catch (JOSEException e) {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to generate token"));
         }
