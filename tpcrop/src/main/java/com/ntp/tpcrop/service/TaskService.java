@@ -17,4 +17,5 @@ public interface TaskService {
     TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t);
     TaskViewDto updateTask(Long id, TaskUpdateDto taskUpdateDto);
     boolean deleteTask(Long id);
+    boolean deleteTaskCompletion(Long id);
 }

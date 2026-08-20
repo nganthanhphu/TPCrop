@@ -75,6 +75,15 @@ public class TaskController {
 
         return ResponseEntity.status(201).body(createdTaskCompletion);
     }
-    
+
+    @DeleteMapping("/secure/task-completions/{id}")
+    public ResponseEntity<?> deleteTaskCompletion(@PathVariable Long id) {
+        boolean deleted = taskService.deleteTaskCompletion(id);
+        if (deleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 }

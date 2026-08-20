@@ -6,4 +6,6 @@ import com.ntp.tpcrop.entity.TaskCompletions;
 
 public interface TaskCompletionRepository extends JpaRepository<TaskCompletions, Long> {
 
+    boolean existsByIdAndPlotId_UserId_id(Long id, Long userId);
+
 }

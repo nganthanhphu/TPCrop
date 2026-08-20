@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.TaskCompletionCreateDto;
@@ -123,6 +124,16 @@ public class TaskServiceImpl implements TaskService {
     private boolean validateTaskDates(LocalDate startDate, LocalDate endDate, Seasons season) {
         return !(startDate.getYear() < season.getStartYear() || startDate.getYear() > season.getEndYear()
                 || endDate.getYear() < season.getStartYear() || endDate.getYear() > season.getEndYear());
+    }
+
+    @Override
+    @PreAuthorize("@taskCompletionSecurity.isTaskCompletionOwner(#id)")
+    public boolean deleteTaskCompletion(Long id) {
+        if (taskCompletionRepository.existsById(id)) {
+            taskCompletionRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
