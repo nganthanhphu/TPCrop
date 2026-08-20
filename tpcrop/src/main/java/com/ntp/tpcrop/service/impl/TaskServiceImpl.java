@@ -64,11 +64,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("@plotSecurity.isPlotOwner(#plotId)")
     public Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable) {
         return taskRepository.getDetailedTasks(plotId, isCompleted, pageable);
     }
 
     @Override
+    @PreAuthorize("@plotSecurity.isPlotOwner(#t.plotId())")
     public TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t) {
         Tasks task = taskRepository.findById(t.taskId()).get();
         if (task.getStartDate().isAfter(LocalDate.now())) {
