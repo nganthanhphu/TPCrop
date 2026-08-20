@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.SeasonCreateDto;
+import com.ntp.tpcrop.dto.request.SeasonUpdateDto;
 import com.ntp.tpcrop.dto.response.SeasonViewDto;
 import com.ntp.tpcrop.entity.Crops;
 import com.ntp.tpcrop.entity.Seasons;
@@ -40,6 +41,22 @@ public class SeasonServiceImpl implements SeasonService {
     public Page<SeasonViewDto> getSeasons(Long cropId, Pageable pageable) {
         return seasonRepository.getSeasons(cropId, pageable)
                 .map(seasonMapper::toDto);
+    }
+
+    @Override
+    public SeasonViewDto updateSeason(Long id, SeasonUpdateDto seasonUpdateDto) {
+        Seasons season = seasonRepository.findById(id).get();
+        seasonMapper.updateEntityFromDto(seasonUpdateDto, season);
+        return seasonMapper.toDto(seasonRepository.save(season));
+    }
+
+    @Override
+    public boolean deleteSeason(Long id) {
+        if (seasonRepository.existsById(id)) {
+            seasonRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
