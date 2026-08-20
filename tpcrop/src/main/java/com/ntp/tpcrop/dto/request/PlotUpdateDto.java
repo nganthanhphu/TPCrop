@@ -1,7 +1,9 @@
 package com.ntp.tpcrop.dto.request;
 
-public record PlotCreateDto(
+public record PlotUpdateDto(
         Double size,
         String address,
-        Long cropId) {
+        Long cropId
+) {
+
 }

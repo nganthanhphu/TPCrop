@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ntp.tpcrop.dto.request.PlotCreateDto;
+import com.ntp.tpcrop.dto.request.PlotUpdateDto;
 import com.ntp.tpcrop.dto.response.PlotViewDto;
 
 public interface PlotService {
@@ -12,4 +13,7 @@ public interface PlotService {
 
     Page<PlotViewDto> getPlots(Long cropId, Pageable pageable);
 
+    PlotViewDto updatePlot(Long id, PlotUpdateDto plotUpdateDto);
+
+    boolean deletePlot(Long id);
 }

@@ -2,9 +2,11 @@ package com.ntp.tpcrop.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.ntp.tpcrop.dto.request.PlotCreateDto;
+import com.ntp.tpcrop.dto.request.PlotUpdateDto;
 import com.ntp.tpcrop.dto.response.PlotViewDto;
 import com.ntp.tpcrop.entity.Crops;
 import com.ntp.tpcrop.entity.Plots;
@@ -47,6 +49,29 @@ public class PlotServiceImpl implements PlotService {
     public Page<PlotViewDto> getPlots(Long cropId, Pageable pageable) {
         return plotRepository.findByCropId_IdAndUserId_Id(cropId, userUtil.getCurrentUser().getId(), pageable)
                 .map(plotMapper::toDto);
+    }
+
+    @Override
+    @PreAuthorize("plotSecurity.isPlotOwner(#id)")
+    public PlotViewDto updatePlot(Long id, PlotUpdateDto plotUpdateDto) {
+        Plots plot = plotRepository.findById(id).get();
+        plotMapper.updateEntityFromDto(plotUpdateDto, plot);
+
+        if (plotUpdateDto.cropId() != null && !plotUpdateDto.cropId().equals(plot.getCropId().getId())) {
+            Crops crop = cropRepository.getReferenceById(plotUpdateDto.cropId());
+            plot.setCropId(crop);
+        }
+        return plotMapper.toDto(plotRepository.save(plot));
+    }
+
+    @Override
+    @PreAuthorize("plotSecurity.isPlotOwner(#id)")
+    public boolean deletePlot(Long id) {
+        if (plotRepository.existsById(id)) {
+            plotRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
