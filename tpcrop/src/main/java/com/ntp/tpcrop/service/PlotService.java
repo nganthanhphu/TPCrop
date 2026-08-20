@@ -8,7 +8,7 @@ import com.ntp.tpcrop.dto.response.PlotViewDto;
 
 public interface PlotService {
 
-    PlotViewDto addPlot(PlotCreateDto p);
+    PlotViewDto addMyPlot(PlotCreateDto p);
 
     Page<PlotViewDto> getPlots(Long cropId, Pageable pageable);
 

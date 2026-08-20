@@ -32,8 +32,8 @@ public class PlotController {
     }
 
     @PostMapping("/secure/plots")
-    public ResponseEntity<PlotViewDto> addPlot(@RequestBody PlotCreateDto plotCreateDto) {
-        return ResponseEntity.ok(plotService.addPlot(plotCreateDto));
+    public ResponseEntity<PlotViewDto> addMyPlot(@RequestBody PlotCreateDto plotCreateDto) {
+        return ResponseEntity.ok(plotService.addMyPlot(plotCreateDto));
     }
     
 

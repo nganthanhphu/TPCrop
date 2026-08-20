@@ -29,7 +29,7 @@ public class PlotServiceImpl implements PlotService {
     private final UserUtil userUtil;
 
     @Override
-    public PlotViewDto addPlot(PlotCreateDto p) {
+    public PlotViewDto addMyPlot(PlotCreateDto p) {
         Plots plot = new Plots();
         plot.setSize(p.size());
         plot.setAddress(p.address());
