@@ -49,6 +49,10 @@ public class Articles implements Serializable {
     @Basic(optional = false)
     @Column(name = "content")
     private String content;
+    @Column(name = "like_count")
+    private Integer likeCount;
+    @Column(name = "comment_count")
+    private Integer commentCount;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
@@ -96,6 +100,22 @@ public class Articles implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
     }
 
     public LocalDateTime getCreatedAt() {
