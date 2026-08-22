@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import com.ntp.tpcrop.dto.request.TaskCompletionCreateDto;
 import com.ntp.tpcrop.dto.request.TaskCreateDto;
 import com.ntp.tpcrop.dto.request.TaskUpdateDto;
@@ -32,7 +33,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/secure/manager/tasks")
-    public ResponseEntity<TaskViewDto> addTask(@RequestBody TaskCreateDto t) {
+    public ResponseEntity<TaskViewDto> addTask(@RequestBody @Valid TaskCreateDto t) {
         TaskViewDto createdTask = taskService.addTask(t);
 
         return ResponseEntity.status(201).body(createdTask);
@@ -47,7 +48,7 @@ public class TaskController {
 
     @PatchMapping("/secure/manager/tasks/{id}")
     public ResponseEntity<TaskViewDto> updateTask(@PathVariable Long id,
-            @RequestBody TaskUpdateDto taskUpdateDto) {
+            @RequestBody @Valid TaskUpdateDto taskUpdateDto) {
         TaskViewDto updatedTask = taskService.updateTask(id, taskUpdateDto);
         return ResponseEntity.ok(updatedTask);
     }
@@ -70,7 +71,7 @@ public class TaskController {
     }
 
     @PostMapping("/secure/task-completions")
-    public ResponseEntity<TaskCompletionViewDto> completeTask(@RequestBody TaskCompletionCreateDto t) {
+    public ResponseEntity<TaskCompletionViewDto> completeTask(@RequestBody @Valid TaskCompletionCreateDto t) {
         TaskCompletionViewDto createdTaskCompletion = taskService.addTaskCompletion(t);
 
         return ResponseEntity.status(201).body(createdTaskCompletion);

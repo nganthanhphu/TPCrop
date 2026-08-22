@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ntp.tpcrop.dto.request.CropCreateDto;
@@ -29,13 +30,13 @@ public class CropController {
     private final CropService cropService;
 
     @PostMapping("/secure/manager/crops")
-    public ResponseEntity<CropViewDto> addCrop(@RequestBody CropCreateDto c) {
+    public ResponseEntity<CropViewDto> addCrop(@RequestBody @Valid CropCreateDto c) {
         CropViewDto createdCrop = cropService.addCrop(c);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCrop);
     }
 
     @PatchMapping("/secure/manager/crops/{id}")
-    public ResponseEntity<CropViewDto> updateCrop(@PathVariable Long id, @RequestBody CropUpdateDto cropUpdateDto) {
+    public ResponseEntity<CropViewDto> updateCrop(@PathVariable Long id, @RequestBody @Valid CropUpdateDto cropUpdateDto) {
         CropViewDto updatedCrop = cropService.updateCrop(id, cropUpdateDto);
         return ResponseEntity.ok(updatedCrop);
     }

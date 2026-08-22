@@ -1,8 +1,12 @@
 package com.ntp.tpcrop.dto.request;
 
+import jakarta.validation.constraints.NotNull;
+
 public record TaskCompletionCreateDto(
-    long plotId,
-    long taskId
+    @NotNull
+    Long plotId,
+    @NotNull
+    Long taskId
 ) {
 
 }

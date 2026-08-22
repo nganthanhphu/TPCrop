@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ntp.tpcrop.dto.request.ArticleCreateDto;
@@ -31,7 +32,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/secure/articles")
-    public ResponseEntity<ArticleDetailViewDto> createArticle(@RequestBody ArticleCreateDto articleCreateDto) {
+    public ResponseEntity<ArticleDetailViewDto> createArticle(@RequestBody @Valid ArticleCreateDto articleCreateDto) {
 
         ArticleDetailViewDto article = articleService.addArticle(articleCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(article);
@@ -55,7 +56,7 @@ public class ArticleController {
 
     @PatchMapping("/secure/articles/{id}")
     public ResponseEntity<ArticleDetailViewDto> updateArticle(@PathVariable Long id,
-            @RequestBody ArticleUpdateDto articleUpdateDto) {
+            @RequestBody @Valid ArticleUpdateDto articleUpdateDto) {
         ArticleDetailViewDto updatedArticle = articleService.updateArticle(id, articleUpdateDto);
         return ResponseEntity.ok(updatedArticle);
     }
