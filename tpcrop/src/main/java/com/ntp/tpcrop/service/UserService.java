@@ -2,8 +2,11 @@ package com.ntp.tpcrop.service;
 
 import java.io.IOException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.ntp.tpcrop.dto.request.ManagerUserUpdateDto;
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
 import com.ntp.tpcrop.dto.request.UserUpdateDto;
 import com.ntp.tpcrop.dto.response.UserViewDto;
@@ -17,4 +20,8 @@ public interface UserService extends UserDetailsService {
     UserViewDto getCurrentUser();
 
     UserViewDto updateCurrentUser(UserUpdateDto u) throws IOException;
+
+    Page<UserViewDto> getAllUsers(Pageable pageable);
+
+    UserViewDto updateUserByManager(Long userId, ManagerUserUpdateDto u);
 }

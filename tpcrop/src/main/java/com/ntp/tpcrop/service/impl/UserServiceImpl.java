@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ntp.tpcrop.dto.request.ManagerUserUpdateDto;
 import com.ntp.tpcrop.dto.request.UserRegisterDto;
 import com.ntp.tpcrop.dto.request.UserUpdateDto;
 import com.ntp.tpcrop.dto.response.UserViewDto;
@@ -125,6 +128,18 @@ public class UserServiceImpl implements UserService {
             user.setAvatar(avatarUrl);
         }
 
+        return userMapper.toDto(userRepository.save(user));
+    }
+
+    @Override
+    public Page<UserViewDto> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userMapper::toDto);
+    }
+
+    @Override
+    public UserViewDto updateUserByManager(Long userId, ManagerUserUpdateDto u) {
+        Users user = userRepository.findById(userId).get();
+        user.setActive(u.active());
         return userMapper.toDto(userRepository.save(user));
     }
 
