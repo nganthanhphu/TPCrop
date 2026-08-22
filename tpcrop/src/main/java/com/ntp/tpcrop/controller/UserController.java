@@ -64,7 +64,7 @@ public class UserController {
             String token = jwtUtil.generateToken(user);
             UserViewDto userViewDto = userMapper.toDto(user);
             UserLoginViewDto res = new UserLoginViewDto(userViewDto, token);
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity.status(201).body(res);
         } catch (JOSEException e) {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to generate token"));
         }

@@ -38,7 +38,7 @@ public class PlotController {
 
     @PostMapping("/secure/plots")
     public ResponseEntity<PlotViewDto> addMyPlot(@RequestBody PlotCreateDto plotCreateDto) {
-        return ResponseEntity.ok(plotService.addMyPlot(plotCreateDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(plotService.addMyPlot(plotCreateDto));
     }
 
     @PatchMapping("/secure/plots/{id}")
