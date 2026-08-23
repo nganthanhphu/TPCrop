@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -52,7 +52,7 @@ public class Comments implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Articles articleId;
     @OneToMany(mappedBy = "parentId", fetch = FetchType.LAZY)
-    private List<Comments> commentsList;
+    private Set<Comments> commentsSet;
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Comments parentId;
@@ -112,12 +112,12 @@ public class Comments implements Serializable {
         this.articleId = articleId;
     }
 
-    public List<Comments> getCommentsList() {
-        return commentsList;
+    public Set<Comments> getCommentsSet() {
+        return commentsSet;
     }
 
-    public void setCommentsList(List<Comments> commentsList) {
-        this.commentsList = commentsList;
+    public void setCommentsSet(Set<Comments> commentsSet) {
+        this.commentsSet = commentsSet;
     }
 
     public Comments getParentId() {
