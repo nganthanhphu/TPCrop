@@ -59,7 +59,7 @@ public class PlotServiceImpl implements PlotService {
     }
 
     @Override
-    @PreAuthorize("plotSecurity.isPlotOwner(#id)")
+    @PreAuthorize("@plotSecurity.isPlotOwner(#id)")
     public PlotViewDto updatePlot(Long id, PlotUpdateDto plotUpdateDto) {
         Plots plot = plotRepository.findById(id).get();
         plotMapper.updateEntityFromDto(plotUpdateDto, plot);
@@ -70,7 +70,7 @@ public class PlotServiceImpl implements PlotService {
                 existingCrops = new HashSet<>();
                 plot.setCropsSet(existingCrops);
             }
-            
+
             existingCrops.removeIf(crop -> !plotUpdateDto.cropIds().contains(crop.getId()));
 
             Set<Long> existingCropIds = existingCrops.stream().map(Crops::getId).collect(Collectors.toSet());
@@ -87,7 +87,7 @@ public class PlotServiceImpl implements PlotService {
     }
 
     @Override
-    @PreAuthorize("plotSecurity.isPlotOwner(#id)")
+    @PreAuthorize("@plotSecurity.isPlotOwner(#id)")
     public boolean deletePlot(Long id) {
         if (plotRepository.existsById(id)) {
             plotRepository.deleteById(id);
