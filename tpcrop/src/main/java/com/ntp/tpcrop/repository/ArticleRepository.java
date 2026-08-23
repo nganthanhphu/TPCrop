@@ -12,7 +12,7 @@ public interface ArticleRepository extends JpaRepository<Articles, Long> {
     @Query("""
                 SELECT a FROM Articles a
                 WHERE (:userId IS NULL OR a.userId.id = :userId)
-                AND (:keyword IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')))
+                AND (:keyword IS NULL OR LOWER(a.title) LIKE :keyword)
             """)
     Page<Articles> getArticles(Long cropId, Long userId, String keyword, Pageable pageable);
 

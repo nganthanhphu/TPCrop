@@ -76,6 +76,10 @@ public class ArticleServiceImpl implements ArticleService {
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
+        if (keyword != null && !keyword.isEmpty()) {
+            keyword = "%" + keyword.toLowerCase() + "%";
+        }
+
         Page<Articles> articles = articleRepository.getArticles(cropId, userId, keyword, sortedPageable);
         return articles.map(articleMapper::toViewDto);
     }
