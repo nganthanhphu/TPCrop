@@ -3,6 +3,7 @@ package com.ntp.tpcrop.service.impl;
 import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,7 +74,9 @@ public class ArticleServiceImpl implements ArticleService {
                 sort = Sort.by(Sort.Direction.DESC, "createdAt");
         }
 
-        Page<Articles> articles = articleRepository.getArticles(cropId, userId, keyword, sort, pageable);
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        Page<Articles> articles = articleRepository.getArticles(cropId, userId, keyword, sortedPageable);
         return articles.map(articleMapper::toViewDto);
     }
 

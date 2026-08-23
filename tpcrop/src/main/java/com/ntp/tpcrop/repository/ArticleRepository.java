@@ -2,7 +2,6 @@ package com.ntp.tpcrop.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,7 +15,7 @@ public interface ArticleRepository extends JpaRepository<Articles, Long> {
                 AND (:userId IS NULL OR a.userId.id = :userId)
                 AND (:keyword IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')))
             """)
-    Page<Articles> getArticles(Long cropId, Long userId, String keyword, Sort sortBy, Pageable pageable);
+    Page<Articles> getArticles(Long cropId, Long userId, String keyword, Pageable pageable);
 
     boolean existsByIdAndUserId_Id(Long id, Long userId);
 }
