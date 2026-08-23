@@ -12,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -45,7 +46,7 @@ public class Crops implements Serializable {
     private Boolean isSupportChatbot;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cropId", fetch = FetchType.LAZY)
     private List<Seasons> seasonsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cropId", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "cropsList", fetch = FetchType.LAZY)
     private List<Plots> plotsList;
 
     public Crops() {

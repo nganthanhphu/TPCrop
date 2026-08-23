@@ -13,7 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -48,9 +49,13 @@ public class Plots implements Serializable {
     private String address;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "plotId", fetch = FetchType.LAZY)
     private List<TaskCompletions> taskCompletionsList;
-    @JoinColumn(name = "crop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Crops cropId;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "plot_crops",
+        joinColumns = @JoinColumn(name = "plot_id"),
+        inverseJoinColumns = @JoinColumn(name = "crop_id")
+    )
+    private List<Crops> cropsList;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Users userId;
@@ -100,12 +105,12 @@ public class Plots implements Serializable {
         this.taskCompletionsList = taskCompletionsList;
     }
 
-    public Crops getCropId() {
-        return cropId;
+    public List<Crops> getCropsList() {
+        return cropsList;
     }
 
-    public void setCropId(Crops cropId) {
-        this.cropId = cropId;
+    public void setCropsList(List<Crops> cropsList) {
+        this.cropsList = cropsList;
     }
 
     public Users getUserId() {
