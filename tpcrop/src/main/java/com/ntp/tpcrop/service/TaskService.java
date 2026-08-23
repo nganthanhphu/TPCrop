@@ -13,7 +13,7 @@ import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 public interface TaskService {
     TaskViewDto addTask(TaskCreateDto t);
     Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable);
-    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable);
+    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, Boolean isCompleted, Pageable pageable);
     TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t);
     TaskViewDto updateTask(Long id, TaskUpdateDto taskUpdateDto);
     boolean deleteTask(Long id);

@@ -26,8 +26,9 @@ public interface TaskRepository extends JpaRepository<Tasks, Long> {
                 INNER JOIN c.plotsSet p
                 WHERE p.id = :plotId
                 AND (:isCompleted IS NULL OR (CASE WHEN tc IS NOT NULL THEN true ELSE false END) = :isCompleted)
+                AND (:cropId IS NULL OR c.id = :cropId)
                 ORDER BY t.startDate asc
             """)
-    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable);
+    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, Boolean isCompleted, Pageable pageable);
 
 }

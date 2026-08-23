@@ -65,8 +65,9 @@ public class TaskController {
 
     @GetMapping("/secure/tasks")
     public ResponseEntity<Page<TaskDetailViewDto>> getDetailedTasks(@RequestParam(required = true) Long plotId,
-            @RequestParam(required = false) Boolean isCompleted, Pageable pageable) {
-        Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, isCompleted, pageable);
+            @RequestParam(required = false) Long cropId, @RequestParam(required = false) Boolean isCompleted,
+            Pageable pageable) {
+        Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, cropId, isCompleted, pageable);
         return ResponseEntity.ok(tasks);
     }
 
