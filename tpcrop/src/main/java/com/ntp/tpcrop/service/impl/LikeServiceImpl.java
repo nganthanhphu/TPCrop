@@ -2,8 +2,10 @@ package com.ntp.tpcrop.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.ntp.tpcrop.entity.Articles;
 import com.ntp.tpcrop.entity.Likes;
 import com.ntp.tpcrop.entity.LikesPK;
+import com.ntp.tpcrop.repository.ArticleRepository;
 import com.ntp.tpcrop.repository.LikeRepository;
 import com.ntp.tpcrop.service.LikeService;
 import com.ntp.tpcrop.util.UserUtil;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
+    private final ArticleRepository articleRepository;
     private final UserUtil userUtil;
 
     @Override
@@ -25,6 +28,10 @@ public class LikeServiceImpl implements LikeService {
         Long currentUserId = userUtil.getCurrentUser().getId();
         linesPK.setUserId(currentUserId);
         likeRepository.save(new Likes(linesPK));
+
+        Articles article = articleRepository.findById(articleId).get();
+        article.setLikeCount(article.getLikeCount() + 1);
+        articleRepository.save(article);
     }
 
     @Override
@@ -37,6 +44,9 @@ public class LikeServiceImpl implements LikeService {
         
         if (likeRepository.existsById(linesPK)) {
             likeRepository.deleteById(linesPK);
+            Articles article = articleRepository.findById(articleId).get();
+            article.setLikeCount(article.getLikeCount() - 1);
+            articleRepository.save(article);
         }
     }
 
