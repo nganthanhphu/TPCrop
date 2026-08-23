@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.controller;
 
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import com.ntp.tpcrop.dto.request.ArticleUpdateDto;
 import com.ntp.tpcrop.dto.response.ArticleDetailViewDto;
 import com.ntp.tpcrop.dto.response.ArticleViewDto;
 import com.ntp.tpcrop.service.ArticleService;
+import com.ntp.tpcrop.service.LikeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final LikeService likeService;
 
     @PostMapping("/secure/articles")
     public ResponseEntity<ArticleDetailViewDto> createArticle(@RequestBody @Valid ArticleCreateDto articleCreateDto) {
@@ -69,6 +73,24 @@ public class ArticleController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/secure/articles/{id}/likes")
+    public ResponseEntity<?> getIsLiked(@PathVariable Long articleId) {
+        boolean isLiked = likeService.isArticleLikedByCurrentUser(articleId);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("isLiked", isLiked));
+    }
+
+    @PostMapping("/secure/articles/{id}/likes")
+    public ResponseEntity<?> likeArticle(@PathVariable Long articleId) {
+        likeService.LikeArticle(articleId);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("isLiked", true));
+    }
+
+    @DeleteMapping("/secure/articles/{id}/likes")
+    public ResponseEntity<?> unlikeArticle(@PathVariable Long articleId) {
+        likeService.UnlikeArticle(articleId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
