@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ntp.tpcrop.dto.request.ArticleCreateDto;
 import com.ntp.tpcrop.dto.request.ArticleUpdateDto;
+import com.ntp.tpcrop.dto.request.CommentCreateDto;
+import com.ntp.tpcrop.dto.request.CommentUpdateDto;
 import com.ntp.tpcrop.dto.response.ArticleDetailViewDto;
 import com.ntp.tpcrop.dto.response.ArticleViewDto;
+import com.ntp.tpcrop.dto.response.CommentViewDto;
 import com.ntp.tpcrop.service.ArticleService;
+import com.ntp.tpcrop.service.CommentService;
 import com.ntp.tpcrop.service.LikeService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +38,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final LikeService likeService;
+    private final CommentService commentService;
 
     @PostMapping("/secure/articles")
     public ResponseEntity<ArticleDetailViewDto> createArticle(@RequestBody @Valid ArticleCreateDto articleCreateDto) {
@@ -91,6 +96,37 @@ public class ArticleController {
     public ResponseEntity<?> unlikeArticle(@PathVariable Long articleId) {
         likeService.UnlikeArticle(articleId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/articles/{id}/comments")
+    public ResponseEntity<Page<CommentViewDto>> getComments(@PathVariable Long id,
+            @RequestParam(required = false) Long parentId, Pageable pageable) {
+        Page<CommentViewDto> comments = commentService.getCommentsByArticle(id, parentId, pageable);
+        return ResponseEntity.ok(comments);
+    }
+
+    @PostMapping("/secure/articles/{id}/comments")
+    public ResponseEntity<CommentViewDto> createComment(@PathVariable Long id,
+            @RequestBody @Valid CommentCreateDto commentCreateDto) {
+        CommentViewDto createdComment = commentService.createComment(commentCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+    }
+
+    @PatchMapping("/secure/comments/{id}")
+    public ResponseEntity<CommentViewDto> updateComment(@PathVariable Long id,
+            @RequestBody @Valid CommentUpdateDto commentUpdateDto) {
+        CommentViewDto updatedComment = commentService.updateComment(id, commentUpdateDto);
+        return ResponseEntity.ok(updatedComment);
+    }
+
+    @DeleteMapping("/secure/comments/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        boolean deleted = commentService.deleteComment(id);
+        if (deleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 }

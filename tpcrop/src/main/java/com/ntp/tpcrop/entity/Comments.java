@@ -49,15 +49,15 @@ public class Comments implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     @JoinColumn(name = "article_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Articles articleId;
     @OneToMany(mappedBy = "parentId", fetch = FetchType.LAZY)
     private Set<Comments> commentsSet;
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Comments parentId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Users userId;
 
     public Comments() {
