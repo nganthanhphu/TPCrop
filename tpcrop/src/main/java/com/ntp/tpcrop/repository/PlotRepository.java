@@ -8,10 +8,16 @@ import com.ntp.tpcrop.entity.Plots;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PlotRepository extends JpaRepository<Plots, Long> {
-    
-    @Query("SELECT p FROM Plots p WHERE (p.cropId.id = :cropId OR :cropId IS NULL) AND (p.userId.id = :userId OR :userId IS NULL)")
+
+    @Query("""
+                SELECT DISTINCT p
+                FROM Plots p
+                LEFT JOIN p.cropsSet cs
+                WHERE (:cropSetId IS NULL OR cs.id = :cropSetId)
+                AND (:userId IS NULL OR p.userId.id = :userId)
+            """)
     Page<Plots> findByCropId_IdAndUserId_Id(Long cropId, Long userId, Pageable pageable);
 
     boolean existsByIdAndUserId_Id(Long plotId, Long userId);
-    
+
 }
