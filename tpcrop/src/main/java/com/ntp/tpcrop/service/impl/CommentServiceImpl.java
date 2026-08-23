@@ -49,7 +49,11 @@ public class CommentServiceImpl implements CommentService {
         Comments comment = new Comments();
         comment.setContent(commentCreateDto.content());
         comment.setArticleId(articleRepository.getReferenceById(commentCreateDto.articleId()));
-        comment.setParentId(commentRepository.findById(commentCreateDto.parentId()).orElse(null));
+        if (commentCreateDto.parentId() != null) {
+            comment.setParentId(commentRepository.findById(commentCreateDto.parentId()).orElse(null));
+        } else {
+            comment.setParentId(null);
+        }
         comment.setCreatedAt(LocalDateTime.now());
         comment.setUserId(userRepository.getReferenceById(userUtil.getCurrentUser().getId()));
 
