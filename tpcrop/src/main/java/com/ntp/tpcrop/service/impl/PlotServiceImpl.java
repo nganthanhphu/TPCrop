@@ -1,5 +1,6 @@
 package com.ntp.tpcrop.service.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,10 @@ public class PlotServiceImpl implements PlotService {
         plot.setSize(p.size());
         plot.setAddress(p.address());
 
-        cropRepository.findAllById(p.cropIds()).forEach(plot.getCropsSet()::add);
+        Set<Crops> crops = new HashSet<>();
+
+        cropRepository.findAllById(p.cropIds()).forEach(crop -> crops.add(crop));
+        plot.setCropsSet(crops);
 
         Users user = userRepository.getReferenceById(userUtil.getCurrentUser().getId());
         plot.setUserId(user);
@@ -62,6 +66,11 @@ public class PlotServiceImpl implements PlotService {
 
         if (plotUpdateDto.cropIds() != null && !plotUpdateDto.cropIds().isEmpty()) {
             Set<Crops> existingCrops = plot.getCropsSet();
+            if (existingCrops == null) {
+                existingCrops = new HashSet<>();
+                plot.setCropsSet(existingCrops);
+            }
+            
             existingCrops.removeIf(crop -> !plotUpdateDto.cropIds().contains(crop.getId()));
 
             Set<Long> existingCropIds = existingCrops.stream().map(Crops::getId).collect(Collectors.toSet());
