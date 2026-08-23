@@ -14,15 +14,15 @@ import com.ntp.tpcrop.dto.response.PlotViewDto;
 )
 public interface PlotMapper {
 
-    @Mapping(source = "cropId", target = "crop")
+    @Mapping(source = "cropsSet", target = "crops")
     @Mapping(source = "userId", target = "user")
     PlotViewDto toDto(Plots plot);
 
-    @Mapping(source = "crop", target = "cropId")
+    @Mapping(source = "crops", target = "cropsSet")
     @Mapping(source = "user", target = "userId")
     Plots toEntity(PlotViewDto plotViewDto);
 
-    @Mapping(target = "cropId", ignore = true)
+    @Mapping(target = "cropsSet", ignore = true)
     void updateEntityFromDto(PlotUpdateDto plotUpdateDto, @MappingTarget Plots plot);
 
 }

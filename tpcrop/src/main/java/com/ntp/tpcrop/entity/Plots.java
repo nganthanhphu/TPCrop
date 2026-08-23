@@ -50,7 +50,7 @@ public class Plots implements Serializable {
     private String address;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "plotId", fetch = FetchType.LAZY)
     private Set<TaskCompletions> taskCompletionsSet;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "plot_crops",
         joinColumns = @JoinColumn(name = "plot_id"),

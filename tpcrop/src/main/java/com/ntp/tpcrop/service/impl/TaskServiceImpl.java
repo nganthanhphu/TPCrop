@@ -74,14 +74,13 @@ public class TaskServiceImpl implements TaskService {
     public TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t) {
         Tasks task = taskRepository.findById(t.taskId()).get();
         if (task.getStartDate().isAfter(LocalDate.now())) {
-            throw new ExceptionInInitializerError("Task cannot be completed before its start date.");
+            throw new IllegalArgumentException("Task cannot be completed before its start date.");
         }
 
         Plots plot = plotRepository.findById(t.plotId()).get();
 
-        if (!plot.getCropId().getId().equals(task.getSeasonId().getCropId().getId())) {
-            throw new ExceptionInInitializerError("Plot's crop does not match the task's season crop.");
-        }
+        if (!plot.getCropsSet().contains(task.getSeasonId().getCropId()))
+            throw new IllegalArgumentException("Plot's crops do not match the task's season crop.");
 
         TaskCompletions taskCompletion = new TaskCompletions();
         taskCompletion.setTaskId(taskRepository.getReferenceById(t.taskId()));

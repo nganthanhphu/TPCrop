@@ -20,10 +20,10 @@ public interface TaskRepository extends JpaRepository<Tasks, Long> {
                 new com.ntp.tpcrop.dto.response.CropViewDto(c.id, c.name, c.isSupportChatbot)),
                 CASE WHEN tc IS NOT NULL THEN true ELSE false END)
                 FROM Tasks t
-                LEFT JOIN t.taskCompletionsList tc ON tc.plotId.id = :plotId
+                LEFT JOIN t.taskCompletionsSet tc ON tc.plotId.id = :plotId
                 INNER JOIN t.seasonId s
                 INNER JOIN s.cropId c
-                INNER JOIN c.plotsList p
+                INNER JOIN c.plotsSet p
                 WHERE p.id = :plotId
                 AND (:isCompleted IS NULL OR (CASE WHEN tc IS NOT NULL THEN true ELSE false END) = :isCompleted)
                 ORDER BY t.startDate asc
