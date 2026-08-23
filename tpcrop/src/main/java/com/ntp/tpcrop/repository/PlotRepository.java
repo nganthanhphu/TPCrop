@@ -13,7 +13,7 @@ public interface PlotRepository extends JpaRepository<Plots, Long> {
                 SELECT DISTINCT p
                 FROM Plots p
                 LEFT JOIN p.cropsSet cs
-                WHERE (:cropSetId IS NULL OR cs.id = :cropSetId)
+                WHERE (:cropId IS NULL OR cs.id = :cropId)
                 AND (:userId IS NULL OR p.userId.id = :userId)
             """)
     Page<Plots> findByCropId_IdAndUserId_Id(Long cropId, Long userId, Pageable pageable);
