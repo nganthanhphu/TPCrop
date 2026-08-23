@@ -81,20 +81,20 @@ public class ArticleController {
     }
 
     @GetMapping("/secure/articles/{id}/likes")
-    public ResponseEntity<?> getIsLiked(@PathVariable Long articleId) {
-        boolean isLiked = likeService.isArticleLikedByCurrentUser(articleId);
+    public ResponseEntity<?> getIsLiked(@PathVariable Long id) {
+        boolean isLiked = likeService.isArticleLikedByCurrentUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("isLiked", isLiked));
     }
 
     @PostMapping("/secure/articles/{id}/likes")
-    public ResponseEntity<?> likeArticle(@PathVariable Long articleId) {
-        likeService.LikeArticle(articleId);
+    public ResponseEntity<?> likeArticle(@PathVariable Long id) {
+        likeService.LikeArticle(id);
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("isLiked", true));
     }
 
     @DeleteMapping("/secure/articles/{id}/likes")
-    public ResponseEntity<?> unlikeArticle(@PathVariable Long articleId) {
-        likeService.UnlikeArticle(articleId);
+    public ResponseEntity<?> unlikeArticle(@PathVariable Long id) {
+        likeService.UnlikeArticle(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
