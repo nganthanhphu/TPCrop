@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
 public record UserUpdateDto(
-    @Size(min = 8)
     String oldPassword,
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")
     String password,
