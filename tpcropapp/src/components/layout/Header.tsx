@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 export default function Header({ children }: { children?: React.ReactNode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,9 @@ export default function Header({ children }: { children?: React.ReactNode }) {
 
             <div className="flex items-center gap-4">
                 <nav className="hidden md:flex items-center gap-4">
+                    <Link to="/articles" className="text-sm text-gray-600 hover:text-green-600 transition-colors">
+                        Bài viết
+                    </Link>
                     {children}
                 </nav>
 
@@ -40,6 +44,9 @@ export default function Header({ children }: { children?: React.ReactNode }) {
 
                     {isMenuOpen && (
                         <nav className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 md:hidden">
+                            <Link to="/articles" className="block px-4 py-2 text-sm text-gray-600 hover:text-green-600 transition-colors">
+                                Bài viết
+                            </Link>
                             {children}
                         </nav>
                     )}
