@@ -29,7 +29,7 @@ public interface TaskRepository extends JpaRepository<Tasks, Long> {
                 WHERE p.id = :plotId
                 AND (:isCompleted IS NULL OR (CASE WHEN tc IS NOT NULL THEN true ELSE false END) = :isCompleted)
                 AND (:cropId IS NULL OR c.id = :cropId)
-                AND (:targetDate IS NULL OR t.startDate <= :targetDate AND t.endDate >= :targetDate)
+                AND (CAST(:targetDate AS localdate) IS NULL OR t.startDate <= :targetDate AND t.endDate >= :targetDate)
                 ORDER BY t.startDate asc
             """)
     Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, LocalDate targetDate, Boolean isCompleted, Pageable pageable);
