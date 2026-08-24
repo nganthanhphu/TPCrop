@@ -45,7 +45,7 @@ public class UserController {
         Users user = userService.authenticate(u.username(), u.password());
 
         if (user != null) {
-            if (!user.isActive()) {
+            if (!user.getActive()) {
                 return ResponseEntity.status(403).body(Map.of("error", "User account is inactive"));
             }
 
