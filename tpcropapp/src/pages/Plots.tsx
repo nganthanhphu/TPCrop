@@ -15,6 +15,7 @@ import {
     ChevronLeft,
     ChevronRight,
     LandPlot,
+    ListTodo,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/AuthStore";
 import { getPlots, addMyPlot, updatePlot, deletePlot } from "@/services/plotService";
@@ -209,7 +210,7 @@ export default function Plots() {
                                     setFilterCropId(e.target.value ? Number(e.target.value) : "");
                                     setPage(0);
                                 }}
-                                className="h-11 p-1 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm cursor-pointer hover:border-gray-300 transition-colors"
+                                className="h-11 px-3.5 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm cursor-pointer hover:border-gray-300 transition-colors"
                             >
                                 <option value="">Tất cả cây trồng</option>
                                 {crops.map((crop) => (
@@ -302,7 +303,8 @@ export default function Plots() {
                             {plots.map((plot) => (
                                 <div
                                     key={plot.id}
-                                    className="flex flex-col justify-between bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-emerald-100/80 shadow-lg shadow-emerald-950/5 hover:shadow-xl hover:border-emerald-200 transition-all duration-200 group"
+                                    onClick={() => navigate(`/plots/${plot.id}/tasks`)}
+                                    className="flex flex-col justify-between bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-emerald-100/80 shadow-lg shadow-emerald-950/5 hover:shadow-xl hover:border-emerald-300 hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
                                 >
                                     <div>
                                         <div className="flex items-start justify-between gap-3 mb-3">
@@ -346,7 +348,21 @@ export default function Plots() {
 
                                     <div className="flex items-center justify-end gap-2 pt-5 mt-4 border-t border-gray-100">
                                         <button
-                                            onClick={() => openEditModal(plot)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate(`/plots/${plot.id}/tasks`);
+                                            }}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100/80 hover:bg-emerald-200/80 rounded-lg transition-colors cursor-pointer"
+                                        >
+                                            <ListTodo className="w-3.5 h-3.5" />
+                                            <span>Nhiệm vụ</span>
+                                        </button>
+
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                openEditModal(plot);
+                                            }}
                                             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer"
                                         >
                                             <Pencil className="w-3.5 h-3.5" />
@@ -354,7 +370,10 @@ export default function Plots() {
                                         </button>
 
                                         <button
-                                            onClick={() => setDeletingPlot(plot)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setDeletingPlot(plot);
+                                            }}
                                             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors cursor-pointer"
                                         >
                                             <Trash2 className="w-3.5 h-3.5" />

@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Plots from "@/pages/Plots";
+import PlotTasks from "@/pages/PlotTasks";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
             {
                 path: "plots",
                 element: <Plots />,
+            },
+            {
+                path: "plots/:plotId/tasks",
+                element: <PlotTasks />,
             }
         ]
     }
