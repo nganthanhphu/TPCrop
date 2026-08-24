@@ -30,11 +30,17 @@ CREATE TABLE seasons (
 CREATE TABLE plots (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
-    crop_id BIGINT NOT NULL,
     size DOUBLE PRECISION NOT NULL,
     address VARCHAR(255) NOT NULL,
-    CONSTRAINT fk_plot_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_plot_crop FOREIGN KEY (crop_id) REFERENCES crops(id) ON DELETE CASCADE
+    CONSTRAINT fk_plot_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE plot_crops (
+    plot_id BIGINT NOT NULL,
+    crop_id BIGINT NOT NULL,
+    PRIMARY KEY (plot_id, crop_id),
+    CONSTRAINT fk_pc_plot FOREIGN KEY (plot_id) REFERENCES plots(id) ON DELETE CASCADE,
+    CONSTRAINT fk_pc_crop FOREIGN KEY (crop_id) REFERENCES crops(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tasks (
@@ -75,6 +81,7 @@ CREATE TABLE comments (
     parent_id BIGINT, 
     content TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE,
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_comment_article FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
     CONSTRAINT fk_comment_parent FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
@@ -91,7 +98,8 @@ CREATE TABLE likes (
 
 CREATE INDEX idx_seasons_crop_id ON seasons(crop_id);
 CREATE INDEX idx_plots_user_id ON plots(user_id);
-CREATE INDEX idx_plots_crop_id ON plots(crop_id);
+CREATE INDEX idx_plot_crops_plot_id ON plot_crops(plot_id);
+CREATE INDEX idx_plot_crops_crop_id ON plot_crops(crop_id);
 CREATE INDEX idx_tasks_season_id ON tasks(season_id);
 CREATE INDEX idx_tc_plot_id ON task_completions(plot_id);
 CREATE INDEX idx_tc_task_id ON task_completions(task_id);

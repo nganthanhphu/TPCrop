@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,14 +30,14 @@ public class SeasonController {
     private final SeasonService seasonService;
 
     @PostMapping("/secure/manager/seasons")
-    public ResponseEntity<SeasonViewDto> addSeason(@RequestBody SeasonCreateDto s) {
+    public ResponseEntity<SeasonViewDto> addSeason(@RequestBody @Valid SeasonCreateDto s) {
         SeasonViewDto createdSeason = seasonService.addSeason(s);
         return ResponseEntity.status(201).body(createdSeason);
     }
 
     @PatchMapping("/secure/manager/seasons/{id}")
     public ResponseEntity<SeasonViewDto> updateSeason(@PathVariable Long id,
-            @RequestBody SeasonUpdateDto seasonUpdateDto) {
+            @RequestBody @Valid SeasonUpdateDto seasonUpdateDto) {
         SeasonViewDto updatedSeason = seasonService.updateSeason(id, seasonUpdateDto);
         return ResponseEntity.ok(updatedSeason);
     }

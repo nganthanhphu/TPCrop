@@ -12,12 +12,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -44,9 +45,9 @@ public class Crops implements Serializable {
     @Column(name = "is_support_chatbot")
     private Boolean isSupportChatbot;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cropId", fetch = FetchType.LAZY)
-    private List<Seasons> seasonsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cropId", fetch = FetchType.LAZY)
-    private List<Plots> plotsList;
+    private Set<Seasons> seasonsSet;
+    @ManyToMany(mappedBy = "cropsSet", fetch = FetchType.LAZY)
+    private Set<Plots> plotsSet;
 
     public Crops() {
     }
@@ -84,20 +85,20 @@ public class Crops implements Serializable {
         this.isSupportChatbot = isSupportChatbot;
     }
 
-    public List<Seasons> getSeasonsList() {
-        return seasonsList;
+    public Set<Seasons> getSeasonsSet() {
+        return seasonsSet;
     }
 
-    public void setSeasonsList(List<Seasons> seasonsList) {
-        this.seasonsList = seasonsList;
+    public void setSeasonsSet(Set<Seasons> seasonsSet) {
+        this.seasonsSet = seasonsSet;
     }
 
-    public List<Plots> getPlotsList() {
-        return plotsList;
+    public Set<Plots> getPlotsSet() {
+        return plotsSet;
     }
 
-    public void setPlotsList(List<Plots> plotsList) {
-        this.plotsList = plotsList;
+    public void setPlotsSet(Set<Plots> plotsSet) {
+        this.plotsSet = plotsSet;
     }
 
     @Override

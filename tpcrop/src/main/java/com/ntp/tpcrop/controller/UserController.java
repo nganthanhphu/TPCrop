@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,10 +41,14 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> login(@RequestBody UserLoginDto u) {
+    public ResponseEntity<?> login(@RequestBody @Valid UserLoginDto u) {
         Users user = userService.authenticate(u.username(), u.password());
 
         if (user != null) {
+            if (!user.getActive()) {
+                return ResponseEntity.status(403).body(Map.of("error", "User account is inactive"));
+            }
+
             try {
                 String token = jwtUtil.generateToken(user);
                 UserViewDto userViewDto = userMapper.toDto(user);
@@ -58,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(@ModelAttribute UserRegisterDto u) throws IOException {
+    public ResponseEntity<?> register(@ModelAttribute @Valid UserRegisterDto u) throws IOException {
         Users user = this.userService.addUser(u);
         try {
             String token = jwtUtil.generateToken(user);
@@ -78,7 +83,7 @@ public class UserController {
     }
 
     @PatchMapping(path = "/secure/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserViewDto> updateCurrentUser(@ModelAttribute UserUpdateDto u) throws IOException {
+    public ResponseEntity<UserViewDto> updateCurrentUser(@ModelAttribute @Valid UserUpdateDto u) throws IOException {
         UserViewDto updatedUser = userService.updateCurrentUser(u);
         return ResponseEntity.ok(updatedUser);
     }
@@ -90,7 +95,7 @@ public class UserController {
     }
 
     @PatchMapping("/secure/manager/users/{userId}")
-    public ResponseEntity<UserViewDto> updateUserByManager(@PathVariable Long userId, @RequestBody ManagerUserUpdateDto u) {
+    public ResponseEntity<UserViewDto> updateUserByManager(@PathVariable Long userId, @RequestBody @Valid ManagerUserUpdateDto u) {
         UserViewDto updatedUser = userService.updateUserByManager(userId, u);
         return ResponseEntity.ok(updatedUser);
     }

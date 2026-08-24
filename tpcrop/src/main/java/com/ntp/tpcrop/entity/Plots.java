@@ -13,13 +13,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -47,10 +49,14 @@ public class Plots implements Serializable {
     @Column(name = "address")
     private String address;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "plotId", fetch = FetchType.LAZY)
-    private List<TaskCompletions> taskCompletionsList;
-    @JoinColumn(name = "crop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Crops cropId;
+    private Set<TaskCompletions> taskCompletionsSet;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "plot_crops",
+        joinColumns = @JoinColumn(name = "plot_id"),
+        inverseJoinColumns = @JoinColumn(name = "crop_id")
+    )
+    private Set<Crops> cropsSet;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Users userId;
@@ -92,20 +98,20 @@ public class Plots implements Serializable {
         this.address = address;
     }
 
-    public List<TaskCompletions> getTaskCompletionsList() {
-        return taskCompletionsList;
+    public Set<TaskCompletions> getTaskCompletionsSet() {
+        return taskCompletionsSet;
     }
 
-    public void setTaskCompletionsList(List<TaskCompletions> taskCompletionsList) {
-        this.taskCompletionsList = taskCompletionsList;
+    public void setTaskCompletionsSet(Set<TaskCompletions> taskCompletionsSet) {
+        this.taskCompletionsSet = taskCompletionsSet;
     }
 
-    public Crops getCropId() {
-        return cropId;
+    public Set<Crops> getCropsSet() {
+        return cropsSet;
     }
 
-    public void setCropId(Crops cropId) {
-        this.cropId = cropId;
+    public void setCropsSet(Set<Crops> cropsSet) {
+        this.cropsSet = cropsSet;
     }
 
     public Users getUserId() {

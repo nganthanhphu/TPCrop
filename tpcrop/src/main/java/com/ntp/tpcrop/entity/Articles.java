@@ -20,7 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -58,12 +58,12 @@ public class Articles implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articleId", fetch = FetchType.LAZY)
-    private List<Comments> commentsList;
+    private Set<Comments> commentsSet;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Users userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "articles", fetch = FetchType.LAZY)
-    private List<Likes> likesList;
+    private Set<Likes> likesSet;
 
     public Articles() {
     }
@@ -134,12 +134,12 @@ public class Articles implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public List<Comments> getCommentsList() {
-        return commentsList;
+    public Set<Comments> getCommentsSet() {
+        return commentsSet;
     }
 
-    public void setCommentsList(List<Comments> commentsList) {
-        this.commentsList = commentsList;
+    public void setCommentsSet(Set<Comments> commentsSet) {
+        this.commentsSet = commentsSet;
     }
 
     public Users getUserId() {
@@ -150,12 +150,12 @@ public class Articles implements Serializable {
         this.userId = userId;
     }
 
-    public List<Likes> getLikesList() {
-        return likesList;
+    public Set<Likes> getLikesSet() {
+        return likesSet;
     }
 
-    public void setLikesList(List<Likes> likesList) {
-        this.likesList = likesList;
+    public void setLikesSet(Set<Likes> likesSet) {
+        this.likesSet = likesSet;
     }
 
     @Override

@@ -19,7 +19,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -54,7 +54,7 @@ public class Seasons implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Crops cropId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "seasonId", fetch = FetchType.LAZY)
-    private List<Tasks> tasksList;
+    private Set<Tasks> tasksSet;
 
     public Seasons() {
     }
@@ -110,12 +110,12 @@ public class Seasons implements Serializable {
         this.cropId = cropId;
     }
 
-    public List<Tasks> getTasksList() {
-        return tasksList;
+    public Set<Tasks> getTasksSet() {
+        return tasksSet;
     }
 
-    public void setTasksList(List<Tasks> tasksList) {
-        this.tasksList = tasksList;
+    public void setTasksSet(Set<Tasks> tasksSet) {
+        this.tasksSet = tasksSet;
     }
 
     @Override

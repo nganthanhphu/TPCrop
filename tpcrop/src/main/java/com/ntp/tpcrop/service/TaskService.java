@@ -1,5 +1,7 @@
 package com.ntp.tpcrop.service;
 
+import java.time.LocalDate;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +15,7 @@ import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 public interface TaskService {
     TaskViewDto addTask(TaskCreateDto t);
     Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable);
-    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Boolean isCompleted, Pageable pageable);
+    Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, LocalDate targetDate, Boolean isCompleted, Pageable pageable);
     TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t);
     TaskViewDto updateTask(Long id, TaskUpdateDto taskUpdateDto);
     boolean deleteTask(Long id);

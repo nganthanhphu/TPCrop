@@ -1,10 +1,12 @@
 package com.ntp.tpcrop.dto.response;
 
+import java.util.Set;
+
 public record PlotViewDto(
     Long id,
     double size,
     String address,
-    CropViewDto crop,
+    Set<CropViewDto> crops,
     UserViewDto user
 ) {
 

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ntp.tpcrop.dto.request.PlotCreateDto;
@@ -37,12 +38,12 @@ public class PlotController {
     }
 
     @PostMapping("/secure/plots")
-    public ResponseEntity<PlotViewDto> addMyPlot(@RequestBody PlotCreateDto plotCreateDto) {
+    public ResponseEntity<PlotViewDto> addMyPlot(@RequestBody @Valid PlotCreateDto plotCreateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(plotService.addMyPlot(plotCreateDto));
     }
 
     @PatchMapping("/secure/plots/{id}")
-    public ResponseEntity<PlotViewDto> updatePlot(@PathVariable Long id, @RequestBody PlotUpdateDto plotUpdateDto) {
+    public ResponseEntity<PlotViewDto> updatePlot(@PathVariable Long id, @RequestBody @Valid PlotUpdateDto plotUpdateDto) {
         return ResponseEntity.ok(plotService.updatePlot(id, plotUpdateDto));
     }
 

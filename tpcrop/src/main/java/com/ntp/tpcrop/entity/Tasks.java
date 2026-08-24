@@ -20,7 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -52,7 +52,7 @@ public class Tasks implements Serializable {
     @Column(name = "end_date")
     private LocalDate endDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taskId", fetch = FetchType.LAZY)
-    private List<TaskCompletions> taskCompletionsList;
+    private Set<TaskCompletions> taskCompletionsSet;
     @JoinColumn(name = "season_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Seasons seasonId;
@@ -103,12 +103,12 @@ public class Tasks implements Serializable {
         this.endDate = endDate;
     }
 
-    public List<TaskCompletions> getTaskCompletionsList() {
-        return taskCompletionsList;
+    public Set<TaskCompletions> getTaskCompletionsSet() {
+        return taskCompletionsSet;
     }
 
-    public void setTaskCompletionsList(List<TaskCompletions> taskCompletionsList) {
-        this.taskCompletionsList = taskCompletionsList;
+    public void setTaskCompletionsSet(Set<TaskCompletions> taskCompletionsSet) {
+        this.taskCompletionsSet = taskCompletionsSet;
     }
 
     public Seasons getSeasonId() {
