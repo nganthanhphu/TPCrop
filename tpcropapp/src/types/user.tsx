@@ -19,11 +19,11 @@ export interface UserCreate {
 }
 
 export interface UserUpdate {
-    oldPassword: string;
-    password: string;
-    email: string;
-    fullName: string;
-    avatar: File | null;
+    oldPassword?: string;
+    password?: string;
+    email?: string;
+    fullName?: string;
+    avatar?: File | null;
 }
 
 export interface ManagerUserUpdate {
@@ -38,4 +38,4 @@ export interface UserLogin {
 export interface UserLoginResponse {
     user: User;
     token: string;
-}
+}

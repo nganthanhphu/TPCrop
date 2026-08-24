@@ -23,10 +23,14 @@ export interface ArticleDetail {
 export interface ArticleCreate {
     title: string;
     content: string;
-    userId?: number;
+    userId: number;
 }
 
 export interface ArticleUpdate {
     title?: string;
     content?: string;
+}
+
+export interface ArticleLikeStatus {
+    isLiked: boolean;
 }

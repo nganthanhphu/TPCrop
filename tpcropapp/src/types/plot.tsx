@@ -5,18 +5,18 @@ export interface Plot {
     id: number;
     size: number;
     address: string;
-    crop?: Crop;
+    crops?: Crop[];
     user?: User;
 }
 
 export interface PlotCreate {
     size: number;
     address: string;
-    cropId: number;
+    cropIds: number[];
 }
 
 export interface PlotUpdate {
     size?: number;
     address?: string;
-    cropId?: number;
+    cropIds?: number[];
 }
