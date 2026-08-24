@@ -14,7 +14,7 @@ public interface ArticleRepository extends JpaRepository<Articles, Long> {
                 WHERE (:userId IS NULL OR a.userId.id = :userId)
                 AND (:keyword IS NULL OR LOWER(a.title) LIKE :keyword)
             """)
-    Page<Articles> getArticles(Long cropId, Long userId, String keyword, Pageable pageable);
+    Page<Articles> getArticles(Long userId, String keyword, Pageable pageable);
 
     boolean existsByIdAndUserId_Id(Long id, Long userId);
 }
