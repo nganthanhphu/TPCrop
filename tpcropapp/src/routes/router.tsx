@@ -4,6 +4,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Plots from "@/pages/Plots";
 import PlotTasks from "@/pages/PlotTasks";
+import Articles from "@/pages/Articles";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
             {
                 path: "plots/:plotId/tasks",
                 element: <PlotTasks />,
+            },
+            {
+                path: "articles",
+                element: <Articles />,
             }
         ]
     }
