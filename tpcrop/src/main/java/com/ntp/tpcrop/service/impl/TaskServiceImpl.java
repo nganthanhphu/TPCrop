@@ -65,8 +65,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @PreAuthorize("@plotSecurity.isPlotOwner(#plotId)")
-    public Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, Boolean isCompleted, Pageable pageable) {
-        return taskRepository.getDetailedTasks(plotId, cropId, isCompleted, pageable);
+    public Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, LocalDate targetDate, Boolean isCompleted, Pageable pageable) {
+        return taskRepository.getDetailedTasks(plotId, cropId, targetDate, isCompleted, pageable);
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.ntp.tpcrop.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -65,9 +68,9 @@ public class TaskController {
 
     @GetMapping("/secure/tasks")
     public ResponseEntity<Page<TaskDetailViewDto>> getDetailedTasks(@RequestParam(required = true) Long plotId,
-            @RequestParam(required = false) Long cropId, @RequestParam(required = false) Boolean isCompleted,
+            @RequestParam(required = false) Long cropId, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate targetDate, @RequestParam(required = false) Boolean isCompleted,
             Pageable pageable) {
-        Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, cropId, isCompleted, pageable);
+        Page<TaskDetailViewDto> tasks = taskService.getDetailedTasks(plotId, cropId, targetDate, isCompleted, pageable);
         return ResponseEntity.ok(tasks);
     }
 
