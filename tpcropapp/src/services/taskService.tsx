@@ -24,6 +24,8 @@ export const deleteTask = (taskId: number | string): AxiosPromise<void> =>
 
 export const getDetailedTasks = (params: {
     plotId: number;
+    cropId?: number;
+    targetDate?: string;
     isCompleted?: boolean;
     page?: number;
     size?: number;

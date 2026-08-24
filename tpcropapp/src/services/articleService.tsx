@@ -1,4 +1,4 @@
-import type { Article, ArticleDetail, ArticleCreate, ArticleUpdate } from "@/types/article";
+import type { Article, ArticleDetail, ArticleCreate, ArticleUpdate, ArticleLikeStatus } from "@/types/article";
 import type { PageResponse } from "@/types/common";
 import { axiosClient } from "./axiosClient";
 import endpoints from "./endpoints";
@@ -26,3 +26,12 @@ export const updateArticle = (articleId: number | string, data: ArticleUpdate): 
 
 export const deleteArticle = (articleId: number | string): AxiosPromise<void> =>
     axiosClient.delete(endpoints.articleManagement(articleId));
+
+export const getArticleLikeStatus = (articleId: number | string): AxiosPromise<ArticleLikeStatus> =>
+    axiosClient.get(endpoints.articleLikes(articleId));
+
+export const likeArticle = (articleId: number | string): AxiosPromise<ArticleLikeStatus> =>
+    axiosClient.post(endpoints.articleLikes(articleId));
+
+export const unlikeArticle = (articleId: number | string): AxiosPromise<void> =>
+    axiosClient.delete(endpoints.articleLikes(articleId));

@@ -22,8 +22,9 @@ const endpoints = {
     articlesManagement: "/secure/articles",
     articleManagement: (articleId: string | number) => `/secure/articles/${articleId}`,
     articleLikes: (articleId: string | number) => `/secure/articles/${articleId}/likes`,
-    articleComments: (articleId: string | number) => `/secure/articles/${articleId}/comments`,
-    articleCommentManagement: (commentId: string | number) => `/secure/comments/${commentId}`,
+    articleComments: (articleId: string | number) => `/articles/${articleId}/comments`,
+    createArticleComment: (articleId: string | number) => `/secure/articles/${articleId}/comments`,
+    commentManagement: (commentId: string | number) => `/secure/comments/${commentId}`,
 };
 
 export default endpoints;
