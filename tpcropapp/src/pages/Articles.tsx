@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
     Search,
@@ -12,7 +13,7 @@ import {
 import Pagination from "@/components/Pagination";
 import { getArticles } from "@/services/articleService";
 import type { Article } from "@/types/article";
-import { formatDate } from "@/utils/formatDate";
+import { fromNow } from "@/utils/formatDate";
 
 export default function Articles() {
     const [page, setPage] = useState(0);
@@ -182,9 +183,10 @@ export default function Articles() {
                     <div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {articles.map((article) => (
-                                <div
+                                <Link
                                     key={article.id}
-                                    className="flex flex-col justify-between bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-100 transition-all duration-200"
+                                    to={`/articles/${article.id}`}
+                                    className="flex flex-col justify-between bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 hover:-translate-y-0.5 transition-all duration-200 group"
                                 >
                                     <div>
                                         <div className="flex items-center gap-3 mb-4">
@@ -204,12 +206,12 @@ export default function Articles() {
                                                     {article.user?.fullName || article.user?.username || "Tác giả"}
                                                 </p>
                                                 <p className="text-gray-400">
-                                                    {formatDate(article.createdAt)}
+                                                    {fromNow(article.createdAt)}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-3">
+                                        <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-emerald-700 transition-colors line-clamp-2 mb-3">
                                             {article.title}
                                         </h3>
                                     </div>
@@ -227,7 +229,7 @@ export default function Articles() {
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
 
