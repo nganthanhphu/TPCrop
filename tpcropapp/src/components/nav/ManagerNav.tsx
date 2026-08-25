@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { User, LogOut, ChevronDown, LandPlot } from "lucide-react";
+import { User, LogOut, ChevronDown, Calendar, BarChart } from "lucide-react";
 import { useAuthStore } from "@/stores/AuthStore";
 
-export default function FarmerNav() {
+export default function ManagerNav() {
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
@@ -31,11 +31,27 @@ export default function FarmerNav() {
     return (
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 w-full md:w-auto">
             <Link
-                to="/plots"
+                to="/seasons"
                 className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"
             >
-                <LandPlot className="w-4 h-4" />
-                <span>Đất đai</span>
+                <Calendar className="w-4 h-4" />
+                <span>Mùa vụ</span>
+            </Link>
+
+            <Link
+                to='/account'
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"
+            >
+                <User className="w-4 h-4" />
+                <span> Tài khoản </span>
+            </Link>
+
+            <Link
+                to='/analytics'
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"
+            >
+                <BarChart className="w-4 h-4" />
+                <span> Thống kê </span>
             </Link>
 
             <div className="relative pt-2 md:pt-0 border-t md:border-t-0 border-gray-100" ref={dropdownRef}>
@@ -58,9 +74,8 @@ export default function FarmerNav() {
                         {user?.fullName || user?.username}
                     </span>
                     <ChevronDown
-                        className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
-                            isDropdownOpen ? "rotate-180" : ""
-                        }`}
+                        className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
+                            }`}
                     />
                 </button>
 
