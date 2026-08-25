@@ -23,7 +23,7 @@ import { getPlots } from "@/services/plotService";
 import { getDetailedTasks, completeTask } from "@/services/taskService";
 import type { Article } from "@/types/article";
 import type { TaskDetail } from "@/types/task";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate, fromNow } from "@/utils/formatDate";
 
 export default function Home() {
     const queryClient = useQueryClient();
@@ -423,7 +423,7 @@ export default function Home() {
                                                 {article.user?.fullName || article.user?.username || "Tác giả"}
                                             </p>
                                             <p className="text-gray-400">
-                                                {formatDate(article.createdAt)}
+                                                {fromNow(article.createdAt)}
                                             </p>
                                         </div>
                                     </div>
