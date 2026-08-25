@@ -12,11 +12,10 @@ import {
     Loader2,
     AlertCircle,
     X,
-    ChevronLeft,
-    ChevronRight,
     LandPlot,
     ListTodo,
 } from "lucide-react";
+import Pagination from "@/components/Pagination";
 import { useAuthStore } from "@/stores/AuthStore";
 import { getPlots, addMyPlot, updatePlot, deletePlot } from "@/services/plotService";
 import { getCrops } from "@/services/cropService";
@@ -384,32 +383,12 @@ export default function Plots() {
                             ))}
                         </div>
 
-                        {totalPages > 1 && (
-                            <div className="flex items-center justify-between mt-8 pt-4 border-t border-gray-200">
-                                <p className="text-xs sm:text-sm text-gray-500">
-                                    Hiển thị trang {page + 1} / {totalPages}
-                                </p>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => setPage((p) => Math.max(0, p - 1))}
-                                        disabled={page === 0 || isPlotsLoading}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronLeft className="w-4 h-4" />
-                                    </button>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 px-2">
-                                        Trang {page + 1} / {totalPages}
-                                    </span>
-                                    <button
-                                        onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-                                        disabled={page >= totalPages - 1 || isPlotsLoading}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                        <Pagination
+                            page={page}
+                            totalPages={totalPages}
+                            onPageChange={setPage}
+                            isLoading={isPlotsLoading}
+                        />
                     </div>
                 )}
             </div>
@@ -440,11 +419,10 @@ export default function Plots() {
                                     <input
                                         type="text"
                                         placeholder="Nhập địa chỉ hoặc vị trí mảnh đất"
-                                        className={`w-full pl-10 pr-4 py-3 bg-gray-50/70 border rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:bg-white transition-all ${
-                                            errors.address
-                                                ? "border-red-300 focus:ring-red-400 focus:border-red-400"
-                                                : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-500"
-                                        }`}
+                                        className={`w-full pl-10 pr-4 py-3 bg-gray-50/70 border rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:bg-white transition-all ${errors.address
+                                            ? "border-red-300 focus:ring-red-400 focus:border-red-400"
+                                            : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                            }`}
                                         {...register("address", {
                                             required: "Vui lòng nhập địa chỉ mảnh đất",
                                             maxLength: { value: 255, message: "Địa chỉ không quá 255 ký tự" },
@@ -466,11 +444,10 @@ export default function Plots() {
                                     type="number"
                                     step="0.01"
                                     placeholder="Ví dụ: 1.5"
-                                    className={`w-full px-4 py-3 bg-gray-50/70 border rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:bg-white transition-all ${
-                                        errors.size
-                                            ? "border-red-300 focus:ring-red-400 focus:border-red-400"
-                                            : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-500"
-                                    }`}
+                                    className={`w-full px-4 py-3 bg-gray-50/70 border rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:bg-white transition-all ${errors.size
+                                        ? "border-red-300 focus:ring-red-400 focus:border-red-400"
+                                        : "border-gray-200 focus:ring-emerald-500/20 focus:border-emerald-500"
+                                        }`}
                                     {...register("size", {
                                         required: "Vui lòng nhập diện tích",
                                         min: { value: 0.01, message: "Diện tích phải lớn hơn 0" },

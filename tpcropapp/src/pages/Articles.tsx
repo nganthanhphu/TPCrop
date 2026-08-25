@@ -7,10 +7,9 @@ import {
     MessageSquare,
     AlertCircle,
     FileText,
-    ChevronLeft,
-    ChevronRight,
     SlidersHorizontal,
 } from "lucide-react";
+import Pagination from "@/components/Pagination";
 import { getArticles } from "@/services/articleService";
 import type { Article } from "@/types/article";
 import { formatDate } from "@/utils/formatDate";
@@ -232,32 +231,12 @@ export default function Articles() {
                             ))}
                         </div>
 
-                        {totalPages > 1 && (
-                            <div className="flex items-center justify-between mt-8 pt-4 border-t border-gray-200">
-                                <p className="text-xs sm:text-sm text-gray-500">
-                                    Hiển thị trang {page + 1} / {totalPages}
-                                </p>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => setPage((p) => Math.max(0, p - 1))}
-                                        disabled={page === 0 || isArticlesLoading}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronLeft className="w-4 h-4" />
-                                    </button>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 px-2">
-                                        Trang {page + 1} / {totalPages}
-                                    </span>
-                                    <button
-                                        onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-                                        disabled={page >= totalPages - 1 || isArticlesLoading}
-                                        className="p-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                        <Pagination
+                            page={page}
+                            totalPages={totalPages}
+                            onPageChange={setPage}
+                            isLoading={isArticlesLoading}
+                        />
                     </div>
                 )}
             </div>
