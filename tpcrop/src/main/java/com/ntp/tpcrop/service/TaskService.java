@@ -14,7 +14,7 @@ import com.ntp.tpcrop.dto.response.TaskDetailViewDto;
 
 public interface TaskService {
     TaskViewDto addTask(TaskCreateDto t);
-    Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable);
+    Page<TaskViewDto> getTasksByManager(Long seasonId, Pageable pageable);
     Page<TaskDetailViewDto> getDetailedTasks(Long plotId, Long cropId, LocalDate targetDate, Boolean isCompleted, Pageable pageable);
     TaskCompletionViewDto addTaskCompletion(TaskCompletionCreateDto t);
     TaskViewDto updateTask(Long id, TaskUpdateDto taskUpdateDto);
