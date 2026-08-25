@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { User, LogOut, ChevronDown, Calendar, BarChart } from "lucide-react";
+import { User, LogOut, ChevronDown, Calendar, BarChart, Sprout } from "lucide-react";
 import { useAuthStore } from "@/stores/AuthStore";
 
 export default function ManagerNav() {
@@ -30,6 +30,14 @@ export default function ManagerNav() {
 
     return (
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 w-full md:w-auto">
+            <Link
+                to="/crops"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"
+            >
+                <Sprout className="w-4 h-4" />
+                <span>Cây trồng</span>
+            </Link>
+
             <Link
                 to="/seasons"
                 className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"

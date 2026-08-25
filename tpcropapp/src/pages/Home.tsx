@@ -125,8 +125,14 @@ export default function Home() {
                                         </h2>
                                         <div className="flex flex-wrap justify-center items-center gap-4 pt-2">
                                             <Link
-                                                to="/seasons"
+                                                to="/crops"
                                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-400 text-emerald-950 font-bold shadow-lg shadow-emerald-950/30 hover:bg-emerald-300 hover:shadow-emerald-400/30 hover:-translate-y-0.5 transition-all duration-200 text-base"
+                                            >
+                                                Quản lý cây trồng
+                                            </Link>
+                                            <Link
+                                                to="/seasons"
+                                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200 text-base"
                                             >
                                                 Quản lý mùa vụ
                                             </Link>
