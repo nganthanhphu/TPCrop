@@ -8,6 +8,7 @@ const endpoints = {
     cropsManagement: "/secure/manager/crops",
     cropManagement: (cropId: string | number) => `/secure/manager/crops/${cropId}`,
     seasons: "/seasons",
+    season: (seasonId: string | number) => `/seasons/${seasonId}`,
     seasonsManagement: "/secure/manager/seasons",
     seasonManagement: (seasonId: string | number) => `/secure/manager/seasons/${seasonId}`,
     tasksManagement: "/secure/manager/tasks",

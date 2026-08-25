@@ -7,6 +7,9 @@ import type { Season, SeasonCreate, SeasonUpdate } from "@/types/season";
 export const getSeasons = (params: { cropId: number; page?: number; size?: number; sort?: string }): AxiosPromise<PageResponse<Season>> =>
     axiosClient.get(endpoints.seasons, params);
 
+export const getSeasonById = (seasonId: number | string): AxiosPromise<Season> =>
+    axiosClient.get(endpoints.season(seasonId));
+
 export const addSeason = (data: SeasonCreate): AxiosPromise<Season> =>
     axiosClient.post(endpoints.seasonsManagement, data);
 
