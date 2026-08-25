@@ -10,6 +10,7 @@ import ArticleManage from "@/pages/ArticleManage";
 import Seasons from "@/pages/Seasons";
 import SeasonTasks from "@/pages/SeasonTasks";
 import Crops from "@/pages/Crops";
+import Profile from "@/pages/Profile";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: "register",
                 element: <Register />,
+            },
+            {
+                path: "profile",
+                element: <Profile />,
             },
             {
                 path: "plots",

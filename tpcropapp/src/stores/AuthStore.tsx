@@ -16,6 +16,7 @@ export interface AuthState {
     isAuthenticated: boolean;
     login: (userData: User, token: string) => void;
     logout: () => void;
+    setUser: (userData: User) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -33,5 +34,10 @@ export const useAuthStore = create<AuthState>((set) => ({
         cookies.remove("token", cookiesOptions);
         cookies.remove("user", cookiesOptions);
         set({ token: null, user: null, isAuthenticated: false });
+    },
+
+    setUser: (userData: User) => {
+        cookies.set("user", userData, cookiesOptions);
+        set({ user: userData });
     }
 }));
