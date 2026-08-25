@@ -59,4 +59,10 @@ public class SeasonServiceImpl implements SeasonService {
         return false;
     }
 
+    @Override
+    public SeasonViewDto getSeasonById(Long id) {
+        Seasons season = seasonRepository.findById(id).get();
+        return seasonMapper.toDto(season);
+    }
+
 }

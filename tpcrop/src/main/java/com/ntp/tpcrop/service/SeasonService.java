@@ -10,6 +10,7 @@ import com.ntp.tpcrop.dto.response.SeasonViewDto;
 public interface SeasonService {
     SeasonViewDto addSeason(SeasonCreateDto s);
     Page<SeasonViewDto> getSeasons(Long cropId, Pageable pageable);
+    SeasonViewDto getSeasonById(Long id);
     SeasonViewDto updateSeason(Long id, SeasonUpdateDto seasonUpdateDto);
     boolean deleteSeason(Long id);
 }
