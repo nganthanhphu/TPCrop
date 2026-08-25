@@ -5,8 +5,7 @@ import endpoints from "./endpoints";
 import type { AxiosPromise } from "axios";
 
 export const getTasksByManager = (params: {
-    cropId: number;
-    seasonId?: number;
+    seasonId: number;
     page?: number;
     size?: number;
     sort?: string;
