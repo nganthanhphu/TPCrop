@@ -137,7 +137,7 @@ export default function Home() {
                                                 Quản lý mùa vụ
                                             </Link>
                                             <Link
-                                                to="/account"
+                                                to="/users"
                                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200 text-base"
                                             >
                                                 Quản lý tài khoản

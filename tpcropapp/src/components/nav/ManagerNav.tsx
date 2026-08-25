@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { User, LogOut, ChevronDown, Calendar, BarChart, Sprout } from "lucide-react";
+import { User, LogOut, ChevronDown, Calendar, BarChart, Sprout, Users } from "lucide-react";
 import { useAuthStore } from "@/stores/AuthStore";
 
 export default function ManagerNav() {
@@ -47,11 +47,11 @@ export default function ManagerNav() {
             </Link>
 
             <Link
-                to='/account'
+                to="/users"
                 className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50/60 rounded-xl transition-colors"
             >
-                <User className="w-4 h-4" />
-                <span> Tài khoản </span>
+                <Users className="w-4 h-4" />
+                <span>Người dùng</span>
             </Link>
 
             <Link
