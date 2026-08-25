@@ -30,7 +30,8 @@ export default function Home() {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const user = useAuthStore((state) => state.user);
 
-    const isFarmer = isAuthenticated && (user?.role?.toUpperCase() === "FARMER" || user?.role?.toUpperCase() === "ROLE_FARMER");
+    const isFarmer = isAuthenticated && (user?.role?.toUpperCase() === "FARMER");
+    const isManager = isAuthenticated && (user?.role?.toUpperCase() === "MANAGER");
 
     const [selectedPlotId, setSelectedPlotId] = useState<number | null>(null);
     const todayStr = new Intl.DateTimeFormat("en-CA").format(new Date());
@@ -117,6 +118,33 @@ export default function Home() {
                                         return "Chào buổi tối, ";
                                     })()}, <span className="text-emerald-300">{user?.fullName || user?.username}</span>
                                 </h1>
+                                {isManager && (
+                                    <>
+                                        <h2 className="text-lg md:text-xl text-emerald-100/90 font-light max-w-2xl mx-auto">
+                                            Hôm nay bạn muốn làm gì?
+                                        </h2>
+                                        <div className="flex flex-wrap justify-center items-center gap-4 pt-2">
+                                            <Link
+                                                to="/seasons"
+                                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-400 text-emerald-950 font-bold shadow-lg shadow-emerald-950/30 hover:bg-emerald-300 hover:shadow-emerald-400/30 hover:-translate-y-0.5 transition-all duration-200 text-base"
+                                            >
+                                                Quản lý mùa vụ
+                                            </Link>
+                                            <Link
+                                                to="/account"
+                                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200 text-base"
+                                            >
+                                                Quản lý tài khoản
+                                            </Link>
+                                            <Link
+                                                to="/analytics"
+                                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/25 backdrop-blur-sm hover:-translate-y-0.5 transition-all duration-200 text-base"
+                                            >
+                                                Thống kê và phân tích
+                                            </Link>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         ) : (
                             <div className="space-y-6">
