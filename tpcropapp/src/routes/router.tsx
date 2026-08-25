@@ -8,6 +8,7 @@ import Articles from "@/pages/Articles";
 import ArticleDetail from "@/pages/ArticleDetail";
 import ArticleManage from "@/pages/ArticleManage";
 import Seasons from "@/pages/Seasons";
+import SeasonTasks from "@/pages/SeasonTasks";
 import Crops from "@/pages/Crops";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
             {
                 path: "seasons",
                 element: <Seasons />,
+            },
+            {
+                path: "seasons/:seasonId/tasks",
+                element: <SeasonTasks />,
             },
             {
                 path: "articles",

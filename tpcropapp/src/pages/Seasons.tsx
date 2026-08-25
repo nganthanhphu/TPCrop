@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ import {
     Loader2,
     X,
     CalendarRange,
+    ListTodo,
 } from "lucide-react";
 import Pagination from "@/components/Pagination";
 import { useAuthStore } from "@/stores/AuthStore";
@@ -319,14 +320,17 @@ export default function Seasons() {
                                             className="hover:bg-emerald-50/30 transition-colors group"
                                         >
                                             <td className="py-4.5 px-6 font-bold text-gray-900 leading-snug">
-                                                <div className="flex items-center gap-2.5">
-                                                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                                                <Link
+                                                    to={`/seasons/${season.id}/tasks`}
+                                                    className="flex items-center gap-2.5 group/name"
+                                                >
+                                                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0 group-hover/name:bg-emerald-600 group-hover/name:text-white transition-colors">
                                                         <Calendar className="w-4 h-4" />
                                                     </div>
-                                                    <span className="group-hover:text-emerald-700 transition-colors">
+                                                    <span className="group-hover/name:text-emerald-700 hover:underline transition-colors">
                                                         {season.name}
                                                     </span>
-                                                </div>
+                                                </Link>
                                             </td>
 
                                             <td className="py-4.5 px-6 text-center">
@@ -345,6 +349,14 @@ export default function Seasons() {
 
                                             <td className="py-4.5 px-6 text-right whitespace-nowrap">
                                                 <div className="flex items-center justify-end gap-2">
+                                                    <Link
+                                                        to={`/seasons/${season.id}/tasks`}
+                                                        className="p-2 rounded-xl text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer inline-flex items-center"
+                                                        title="Quản lý nhiệm vụ mùa vụ"
+                                                    >
+                                                        <ListTodo className="w-4 h-4" />
+                                                    </Link>
+
                                                     <button
                                                         type="button"
                                                         onClick={() => openEditModal(season)}
@@ -415,9 +427,8 @@ export default function Seasons() {
                                             message: "Tên mùa vụ không được vượt quá 100 ký tự",
                                         },
                                     })}
-                                    className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                        errors.name ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                    }`}
+                                    className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.name ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                        }`}
                                 />
                                 {errors.name && (
                                     <p className="text-xs text-red-500 mt-1.5 font-medium">
@@ -436,9 +447,8 @@ export default function Seasons() {
                                             required: "Vui lòng chọn loại cây trồng",
                                             valueAsNumber: true,
                                         })}
-                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all cursor-pointer ${
-                                            errors.cropId ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all cursor-pointer ${errors.cropId ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     >
                                         {crops.map((crop) => (
                                             <option key={crop.id} value={crop.id}>
@@ -470,9 +480,8 @@ export default function Seasons() {
                                                 message: "Năm bắt đầu không hợp lệ",
                                             },
                                         })}
-                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.startYear ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.startYear ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                     {errors.startYear && (
                                         <p className="text-xs text-red-500 mt-1.5 font-medium">
@@ -499,9 +508,8 @@ export default function Seasons() {
                                                 return true;
                                             },
                                         })}
-                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.endYear ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full px-4 py-3 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.endYear ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                     {errors.endYear && (
                                         <p className="text-xs text-red-500 mt-1.5 font-medium">
