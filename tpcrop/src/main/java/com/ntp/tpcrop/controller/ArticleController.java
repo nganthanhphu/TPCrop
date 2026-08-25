@@ -59,7 +59,7 @@ public class ArticleController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String sortBy,
             Pageable pageable) {
-        Page<ArticleViewDto> articles = articleService.getArticles(cropId, userId, keyword, sortBy, pageable);
+        Page<ArticleViewDto> articles = articleService.getArticles(userId, keyword, sortBy, pageable);
         return ResponseEntity.ok(articles);
     }
 

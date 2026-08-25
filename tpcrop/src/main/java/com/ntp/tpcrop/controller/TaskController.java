@@ -43,9 +43,8 @@ public class TaskController {
     }
 
     @GetMapping("/secure/manager/tasks")
-    public ResponseEntity<Page<TaskViewDto>> getTasks(@RequestParam(required = false) Long seasonId,
-            @RequestParam(required = true) Long cropId, Pageable pageable) {
-        Page<TaskViewDto> tasks = taskService.getTasksByManager(seasonId, cropId, pageable);
+    public ResponseEntity<Page<TaskViewDto>> getTasks(@RequestParam(required = true) Long seasonId, Pageable pageable) {
+        Page<TaskViewDto> tasks = taskService.getTasksByManager(seasonId, pageable);
         return ResponseEntity.ok(tasks);
     }
 

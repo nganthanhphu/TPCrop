@@ -16,10 +16,12 @@ public interface CommentMapper {
 
     @Mapping(target = "articleId", source = "articleId.id")
     @Mapping(target = "parentId", source = "parentId.id")
+    @Mapping(target = "user", source = "userId")
     CommentViewDto toViewDto(Comments comment);
 
     @Mapping(target = "articleId", ignore = true)
     @Mapping(target = "parentId", ignore = true)
+    @Mapping(target = "userId", ignore = true)
     Comments toEntity(CommentViewDto commentViewDto);
 
     void updateEntityFromDto(CommentUpdateDto commentUpdateDto, @MappingTarget Comments comment);

@@ -54,7 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<ArticleViewDto> getArticles(Long cropId, Long userId, String keyword, String sortBy,
+    public Page<ArticleViewDto> getArticles(Long userId, String keyword, String sortBy,
             Pageable pageable) {
         if (sortBy == null || sortBy.isEmpty()) {
             sortBy = "createdAt";
@@ -80,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
             keyword = "%" + keyword.toLowerCase() + "%";
         }
 
-        Page<Articles> articles = articleRepository.getArticles(cropId, userId, keyword, sortedPageable);
+        Page<Articles> articles = articleRepository.getArticles(userId, keyword, sortedPageable);
         return articles.map(articleMapper::toViewDto);
     }
 

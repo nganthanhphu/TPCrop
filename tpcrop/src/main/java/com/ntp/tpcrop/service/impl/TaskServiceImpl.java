@@ -58,8 +58,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskViewDto> getTasksByManager(Long seasonId, Long cropId, Pageable pageable) {
-        return taskRepository.getTasks(seasonId, cropId, pageable)
+    public Page<TaskViewDto> getTasksByManager(Long seasonId, Pageable pageable) {
+        return taskRepository.getTasks(seasonId, pageable)
                 .map(taskMapper::toDto);
     }
 

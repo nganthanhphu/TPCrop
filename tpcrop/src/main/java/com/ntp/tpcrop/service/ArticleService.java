@@ -14,7 +14,7 @@ public interface ArticleService {
 
     ArticleDetailViewDto getArticleById(Long id);
 
-    Page<ArticleViewDto> getArticles(Long cropId, Long userId, String keyword, String sortBy, Pageable pageable);
+    Page<ArticleViewDto> getArticles(Long userId, String keyword, String sortBy, Pageable pageable);
 
     ArticleDetailViewDto updateArticle(Long id, ArticleUpdateDto articleUpdateDto);
 
