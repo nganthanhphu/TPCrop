@@ -67,13 +67,13 @@ export default function Articles() {
                         </p>
                     </div>
 
-                    <button
-                        type="button"
+                    <Link
+                        to="/articles/manage"
                         className="h-11 inline-flex items-center gap-2 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer self-start sm:self-auto shrink-0"
                     >
                         <SlidersHorizontal className="w-4 h-4" />
                         <span>Quản lý bài viết</span>
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="flex justify-end items-center mb-8">

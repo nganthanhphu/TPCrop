@@ -6,6 +6,7 @@ import Plots from "@/pages/Plots";
 import PlotTasks from "@/pages/PlotTasks";
 import Articles from "@/pages/Articles";
 import ArticleDetail from "@/pages/ArticleDetail";
+import ArticleManage from "@/pages/ArticleManage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
             {
                 path: "articles",
                 element: <Articles />,
+            },
+            {
+                path: "articles/manage",
+                element: <ArticleManage />,
             },
             {
                 path: "articles/:articleId",
