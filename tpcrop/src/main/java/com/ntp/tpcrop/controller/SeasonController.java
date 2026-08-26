@@ -59,4 +59,11 @@ public class SeasonController {
         return ResponseEntity.ok(seasons);
     }
 
+    @GetMapping("/seasons/{id}")
+    public ResponseEntity<SeasonViewDto> getSeasonById(@PathVariable Long id) {
+        SeasonViewDto season = seasonService.getSeasonById(id);
+        return ResponseEntity.ok(season);
+
+    }
+
 }

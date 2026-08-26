@@ -82,7 +82,7 @@ public class UserController {
         return ResponseEntity.ok(currentUser);
     }
 
-    @PatchMapping(path = "/secure/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/secure/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserViewDto> updateCurrentUser(@ModelAttribute @Valid UserUpdateDto u) throws IOException {
         UserViewDto updatedUser = userService.updateCurrentUser(u);
         return ResponseEntity.ok(updatedUser);
