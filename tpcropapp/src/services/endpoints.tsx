@@ -26,6 +26,7 @@ const endpoints = {
     articleComments: (articleId: string | number) => `/articles/${articleId}/comments`,
     createArticleComment: (articleId: string | number) => `/secure/articles/${articleId}/comments`,
     commentManagement: (commentId: string | number) => `/secure/comments/${commentId}`,
+    chatbotAsk: "/secure/ask",
 };
 
 export default endpoints;
