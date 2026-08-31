@@ -12,6 +12,7 @@ import SeasonTasks from "@/pages/SeasonTasks";
 import Crops from "@/pages/Crops";
 import Profile from "@/pages/Profile";
 import Users from "@/pages/Users";
+import Analytics from "@/pages/Analytics";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
             {
                 path: "users",
                 element: <Users />,
+            },
+            {
+                path: "analytics",
+                element: <Analytics />,
             },
             {
                 path: "plots",
