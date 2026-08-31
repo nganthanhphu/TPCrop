@@ -27,6 +27,8 @@ const endpoints = {
     createArticleComment: (articleId: string | number) => `/secure/articles/${articleId}/comments`,
     commentManagement: (commentId: string | number) => `/secure/comments/${commentId}`,
     chatbotAsk: "/secure/ask",
+    seasonProgress: "/secure/manager/stats/season-progress",
+    userStats: "/secure/manager/stats/user-stats",
 };
 
 export default endpoints;
