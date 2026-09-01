@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -39,7 +39,6 @@ export default function SeasonTasks() {
     const { seasonId } = useParams<{ seasonId: string }>();
     const numericSeasonId = Number(seasonId);
 
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -65,12 +64,6 @@ export default function SeasonTasks() {
     });
 
     const watchedStartDate = useWatch({ control, name: "startDate" });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const { data: seasonData, isLoading: isSeasonLoading } = useQuery({
         queryKey: ["seasonDetail", numericSeasonId],

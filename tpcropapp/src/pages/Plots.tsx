@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -53,12 +53,6 @@ export default function Plots() {
             cropIds: [],
         },
     });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const {
         data: plotsData,

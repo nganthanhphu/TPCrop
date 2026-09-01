@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -35,7 +35,6 @@ interface SeasonFormData {
 }
 
 export default function Seasons() {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -64,12 +63,6 @@ export default function Seasons() {
 
     const watchedStartYear = useWatch({ control, name: "startYear" });
     const watchedEndYear = useWatch({ control, name: "endYear" });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const {
         data: cropsData,

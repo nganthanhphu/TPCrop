@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import {
@@ -24,7 +24,6 @@ export default function PlotTasks() {
     const { plotId } = useParams<{ plotId: string }>();
     const numericPlotId = Number(plotId);
 
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -32,12 +31,6 @@ export default function PlotTasks() {
     const [filterCropId, setFilterCropId] = useState<number | "">("");
     const [statusFilter, setStatusFilter] = useState<"uncompleted" | "completed" | "all">("uncompleted");
     const pageSize = Number(import.meta.env.VITE_PAGE_SIZE) || 10;
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const { data: plotsData, isLoading: isPlotLoading } = useQuery({
         queryKey: ["farmerPlots"],

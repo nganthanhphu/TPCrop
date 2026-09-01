@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -35,7 +34,6 @@ interface CreateUserFormData {
 }
 
 export default function Users() {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const currentUser = useAuthStore((state) => state.user);
@@ -65,12 +63,6 @@ export default function Users() {
             role: "FARMER",
         },
     });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const {
         data: usersData,

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -28,7 +28,6 @@ interface RegisterFormData {
 
 export default function Register() {
     const navigate = useNavigate();
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const login = useAuthStore((state) => state.login);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -69,12 +68,6 @@ export default function Register() {
             }
         },
     });
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const onSubmit = async (data: RegisterFormData) => {
         if (!data.avatar || data.avatar.length === 0) {

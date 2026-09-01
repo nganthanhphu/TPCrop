@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import {
@@ -41,17 +40,10 @@ const currentYear = dayjs().year();
 const AVAILABLE_YEARS = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
 export default function Analytics() {
-    const navigate = useNavigate();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     const [selectedYear, setSelectedYear] = useState<number>(currentYear);
     const [selectedCropId, setSelectedCropId] = useState<number | null>(null);
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const {
         data: cropsData,

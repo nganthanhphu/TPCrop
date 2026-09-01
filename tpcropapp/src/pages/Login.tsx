@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import {
@@ -17,8 +17,10 @@ import type { UserLogin } from "@/types/user";
 
 export default function Login() {
     const navigate = useNavigate();
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const location = useLocation();
     const login = useAuthStore((state) => state.login);
+
+    const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,12 +31,6 @@ export default function Login() {
         formState: { errors },
     } = useForm<UserLogin>();
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
-
     const onSubmit = async (data: UserLogin) => {
         setIsLoading(true);
 
@@ -44,7 +40,7 @@ export default function Login() {
 
             login(user, token);
             toast.success(`Đăng nhập thành công! Chào mừng ${user.fullName || user.username}`);
-            navigate("/", { replace: true });
+            navigate(from, { replace: true });
         } catch (err: unknown) {
             const errorObj = err as { response?: { data?: { error?: string; message?: string } } };
             const errorMsg =

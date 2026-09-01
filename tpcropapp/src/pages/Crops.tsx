@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -30,7 +29,6 @@ interface CropFormData {
 }
 
 export default function Crops() {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -54,12 +52,6 @@ export default function Crops() {
             isSupportChatbot: false,
         },
     });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
