@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -35,7 +34,6 @@ interface CreateUserFormData {
 }
 
 export default function Users() {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const currentUser = useAuthStore((state) => state.user);
@@ -65,12 +63,6 @@ export default function Users() {
             role: "FARMER",
         },
     });
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
 
     const {
         data: usersData,
@@ -226,17 +218,16 @@ export default function Users() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                     <div>
-                        <div className="flex items-center gap-3 mb-1">
-                            <div className="p-2 rounded-2xl bg-emerald-100 text-emerald-700">
-                                <UsersIcon className="w-6 h-6" />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                            <div>
+                                <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                                    Quản lý người dùng
+                                </h1>
+                                <p className="text-sm sm:text-base text-gray-500">
+                                    Danh sách tài khoản đang hoạt động trên hệ thống
+                                </p>
                             </div>
-                            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                                Quản lý người dùng
-                            </h1>
                         </div>
-                        <p className="text-sm sm:text-base text-gray-500 ml-11">
-                            Danh sách tài khoản đang hoạt động trên hệ thống
-                        </p>
                     </div>
 
                     <button
@@ -356,11 +347,10 @@ export default function Users() {
                                                         type="button"
                                                         disabled={toggleStatusMutation.isPending}
                                                         onClick={() => handleToggleStatus(u)}
-                                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed ${
-                                                            u.active
-                                                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/80 hover:border-emerald-300"
-                                                                : "bg-red-50 text-red-700 border border-red-200/80 hover:bg-red-100/80 hover:border-red-300"
-                                                        }`}
+                                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed ${u.active
+                                                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200/80 hover:bg-emerald-100/80 hover:border-emerald-300"
+                                                            : "bg-red-50 text-red-700 border border-red-200/80 hover:bg-red-100/80 hover:border-red-300"
+                                                            }`}
                                                         title={u.active ? "Nhấn để tạm khóa tài khoản" : "Nhấn để mở khóa tài khoản"}
                                                     >
                                                         {u.active ? (
@@ -532,9 +522,8 @@ export default function Users() {
                                                 message: "Tên đăng nhập không quá 50 ký tự",
                                             },
                                         })}
-                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.username ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.username ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                 </div>
                                 {errors.username && (
@@ -565,9 +554,8 @@ export default function Users() {
                                                 return true;
                                             },
                                         })}
-                                        className={`w-full pl-10 pr-11 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.password ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full pl-10 pr-11 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.password ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                     <button
                                         type="button"
@@ -606,9 +594,8 @@ export default function Users() {
                                                 message: "Họ và tên không quá 100 ký tự",
                                             },
                                         })}
-                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.fullName ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.fullName ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                 </div>
                                 {errors.fullName && (
@@ -636,9 +623,8 @@ export default function Users() {
                                                 message: "Định dạng email không hợp lệ",
                                             },
                                         })}
-                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
-                                            errors.email ? "border-red-400 bg-red-50/20" : "border-gray-200"
-                                        }`}
+                                        className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-2xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${errors.email ? "border-red-400 bg-red-50/20" : "border-gray-200"
+                                            }`}
                                     />
                                 </div>
                                 {errors.email && (
