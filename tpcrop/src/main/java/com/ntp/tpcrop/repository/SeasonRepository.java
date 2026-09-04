@@ -31,7 +31,7 @@ public interface SeasonRepository extends JpaRepository<Seasons, Long> {
                 JOIN s.cropId c
                 LEFT JOIN s.tasksSet t
                 LEFT JOIN t.taskCompletionsSet tc
-                WHERE s.startYear <= :targetYear AND s.endYear >= :targetYear AND s.cropId.id = :cropId
+                WHERE s.startYear <= :targetYear AND s.endYear >= :targetYear AND (s.cropId.id = :cropId OR :cropId IS NULL)
                 GROUP BY s.id, s.name, c.id, c.name, s.startYear, s.endYear
                 ORDER BY s.name ASC
             """)

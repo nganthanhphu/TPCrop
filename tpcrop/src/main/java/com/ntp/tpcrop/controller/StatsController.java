@@ -22,7 +22,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/season-progress")
-    public ResponseEntity<List<SeasonProgressViewDto>> getSeasonProgressStats(@RequestParam Long cropId,
+    public ResponseEntity<List<SeasonProgressViewDto>> getSeasonProgressStats(@RequestParam(required = false) Long cropId,
             @RequestParam int year) {
         List<SeasonProgressViewDto> seasonProgressStats = statsService.getSeasonProgressStats(cropId, year);
         return ResponseEntity.ok(seasonProgressStats);
