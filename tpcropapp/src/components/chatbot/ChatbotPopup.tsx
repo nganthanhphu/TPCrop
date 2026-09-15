@@ -25,13 +25,21 @@ export default function ChatbotPopup() {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const user = useAuthStore((state) => state.user);
 
+    const isFarmer = isAuthenticated && user?.role === "FARMER";
+
+    if (!isFarmer) {
+        return null;
+    }
+
+    return <ChatbotContent key={user?.id} />;
+}
+
+function ChatbotContent() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [inputQuestion, setInputQuestion] = useState("");
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-    const isFarmer = isAuthenticated && user?.role === "FARMER";
 
     const { data: cropsData, isLoading: isCropsLoading } = useQuery({
         queryKey: ["chatbotCrops"],
@@ -39,7 +47,7 @@ export default function ChatbotPopup() {
             const res = await getCrops({ page: 0, size: 100 });
             return res.data;
         },
-        enabled: isFarmer && isOpen,
+        enabled: isOpen,
     });
 
     const crops: Crop[] = cropsData?.content || [];
@@ -57,7 +65,7 @@ export default function ChatbotPopup() {
             {
                 id: `bot-${crop.id}`,
                 sender: "bot",
-                text: `Xin chào! Tôi là trợ lý ảo nông nghiệp TPCrop. Bạn cần hỗ trợ gì về về cây ${crop.name}?`,
+                text: `Xin chào! Tôi là trợ lý ảo nông nghiệp TPCrop. Bạn cần hỗ trợ gì về cây ${crop.name}?`,
             },
         ]);
         setInputQuestion("");
@@ -112,10 +120,6 @@ export default function ChatbotPopup() {
         setInputQuestion("");
         askMutation.mutate(trimmed);
     };
-
-    if (!isFarmer) {
-        return null;
-    }
 
     return (
         <div className="fixed bottom-6 right-6 z-50">
