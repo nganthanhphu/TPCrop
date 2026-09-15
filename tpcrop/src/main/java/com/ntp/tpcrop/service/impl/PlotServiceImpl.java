@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ntp.tpcrop.dto.request.PlotCreateDto;
 import com.ntp.tpcrop.dto.request.PlotUpdateDto;
@@ -17,6 +18,7 @@ import com.ntp.tpcrop.entity.Plots;
 import com.ntp.tpcrop.entity.Users;
 import com.ntp.tpcrop.repository.CropRepository;
 import com.ntp.tpcrop.repository.PlotRepository;
+import com.ntp.tpcrop.repository.TaskCompletionRepository;
 import com.ntp.tpcrop.repository.UserRepository;
 import com.ntp.tpcrop.service.PlotService;
 import com.ntp.tpcrop.service.mapper.PlotMapper;
@@ -30,11 +32,13 @@ public class PlotServiceImpl implements PlotService {
 
     private final PlotRepository plotRepository;
     private final CropRepository cropRepository;
+    private final TaskCompletionRepository taskCompletionRepository;
     private final UserRepository userRepository;
     private final PlotMapper plotMapper;
     private final UserUtil userUtil;
 
     @Override
+    @Transactional
     public PlotViewDto addMyPlot(PlotCreateDto p) {
         Plots plot = new Plots();
         plot.setSize(p.size());
@@ -48,7 +52,10 @@ public class PlotServiceImpl implements PlotService {
         Users user = userRepository.getReferenceById(userUtil.getCurrentUser().getId());
         plot.setUserId(user);
 
-        return plotMapper.toDto(plotRepository.save(plot));
+        Plots savedPlot = plotRepository.saveAndFlush(plot);
+        taskCompletionRepository.completeTasksFromOldSeasons(savedPlot.getId());
+
+        return plotMapper.toDto(savedPlot);
 
     }
 
@@ -60,6 +67,7 @@ public class PlotServiceImpl implements PlotService {
 
     @Override
     @PreAuthorize("@plotSecurity.isPlotOwner(#id)")
+    @Transactional
     public PlotViewDto updatePlot(Long id, PlotUpdateDto plotUpdateDto) {
         Plots plot = plotRepository.findById(id).get();
         plotMapper.updateEntityFromDto(plotUpdateDto, plot);
@@ -83,7 +91,10 @@ public class PlotServiceImpl implements PlotService {
             }
         }
 
-        return plotMapper.toDto(plotRepository.save(plot));
+        Plots savedPlot = plotRepository.saveAndFlush(plot);
+        taskCompletionRepository.completeTasksFromOldSeasons(savedPlot.getId());
+
+        return plotMapper.toDto(savedPlot);
     }
 
     @Override
