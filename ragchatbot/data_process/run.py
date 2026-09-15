@@ -1,11 +1,11 @@
 from langchain_postgres import PGVector
 
-from chunking import chunking_content, split_markdown_content
-from cleaner import clean_and_normalize, extract_content_between_markers
+from data_process.chunking import chunking_content, split_markdown_content
+from data_process.cleaner import clean_and_normalize, extract_content_between_markers
 from config import embeddings, COLLECTION_NAME, DATABASE_URL, PDF_PATH, START_MARKER, END_MARKER, CHUNK_SIZE, \
     CHUNK_OVERLAP, separators
 from data_process.utils import save_markdown
-from extractor import pdf_extractor
+from data_process.extractor import pdf_extractor
 
 
 if __name__ == "__main__":

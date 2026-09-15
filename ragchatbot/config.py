@@ -9,7 +9,7 @@ load_dotenv()
 COLLECTION_NAME = "coffee_disease_collection"
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-PDF_PATH = "coffee_disease.pdf"
+PDF_PATH = "data_process/coffee_disease.pdf"
 START_MARKER = "### **BÀI 1: SÂU HẠI CÀ PHÊ** "
 END_MARKER = "### **HƢỚNG DẪN GIẢNG DẠY MÔ ĐUN/MÔN HỌC** "
 CHUNK_SIZE = 600
