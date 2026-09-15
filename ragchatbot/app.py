@@ -1,14 +1,18 @@
 import os
+from collections import defaultdict, deque
 
 from flask import Flask, request, jsonify
+from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_postgres import PGVector
 
 from config import system_prompt, embeddings, COLLECTION_NAME, DATABASE_URL, llm
 
 app = Flask(__name__)
+
+user_histories = defaultdict(lambda: deque(maxlen=10))
 
 
 def format_context(context):
@@ -26,8 +30,24 @@ def format_context(context):
     return "\n\n---\n\n".join(formatted)
 
 
-prompt = ChatPromptTemplate.from_messages([
+contextualize_prompt = ChatPromptTemplate.from_messages([
+    ("system", "Dựa vào lịch sử trò chuyện và câu hỏi mới nhất, hãy viết lại thành một câu hỏi độc lập. Không trả lời câu hỏi, chỉ viết lại nếu cần hoặc giữ nguyên."),
+    MessagesPlaceholder(variable_name="chat_history"),
+    ("human", "{question}")
+])
+
+contextualize_chain = contextualize_prompt | llm | StrOutputParser()
+
+
+def get_query(input_data):
+    if input_data.get("chat_history"):
+        return contextualize_chain.invoke(input_data)
+    return input_data["question"]
+
+
+qa_prompt = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
+    MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{question}")
 ])
 
@@ -41,11 +61,10 @@ vector_store = PGVector(
 retriever = vector_store.as_retriever(search_kwargs={"k": 4})
 
 rag_chain = (
-    RunnableParallel(
-        context=retriever | RunnableLambda(format_context),
-        question=RunnablePassthrough()
+    RunnablePassthrough.assign(
+        context=RunnableLambda(get_query) | retriever | RunnableLambda(format_context)
     )
-    | prompt
+    | qa_prompt
     | llm
     | StrOutputParser()
 )
@@ -53,14 +72,21 @@ rag_chain = (
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    data = request.get_json()
-    question = data.get('question', '')
+    data = request.get_json() or {}
+    user_id = data.get('user_id', 'default_user')
+    question = data.get('question', '').strip()
 
-    if not question or question.strip() == "":
+    if not question:
         return jsonify({"error": "Question is required"}), 400
 
     try:
-        response = rag_chain.invoke(question)
+        history = user_histories[user_id]
+        response = rag_chain.invoke({
+            "question": question,
+            "chat_history": list(history)
+        })
+        history.append(HumanMessage(content=question))
+        history.append(AIMessage(content=response))
         return jsonify({"response": response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -68,3 +94,4 @@ def chat():
 
 if __name__ == '__main__':
     app.run()
+
