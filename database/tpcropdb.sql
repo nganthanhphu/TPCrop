@@ -1,3 +1,6 @@
+CREATE SCHEMA IF NOT EXISTS tpcrop;
+SET search_path TO tpcrop;
+
 CREATE TYPE user_role AS ENUM ('FARMER', 'MANAGER');
 
 CREATE TABLE users (

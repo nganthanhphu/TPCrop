@@ -1,0 +1,71 @@
+networks:
+  tpcrop-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: tpcrop-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/tpcropdb_seed.sql:/docker-entrypoint-initdb.d/01-init.sql
+    networks:
+      - tpcrop-network
+
+  chatbot:
+    build:
+      context: ./ragchatbot
+      dockerfile: Dockerfile
+    container_name: tpcrop-chatbot
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GOOGLE_MODEL=${GOOGLE_MODEL}
+      - EMBEDDINGS_MODEL_NAME=${EMBEDDINGS_MODEL_NAME}
+    depends_on:
+      - db
+    networks:
+      - tpcrop-network
+
+  backend:
+    build:
+      context: ./tpcrop
+      dockerfile: Dockerfile
+    container_name: tpcrop-backend
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}?currentSchema=tpcrop
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - CHATBOT_API_URL=http://chatbot:5000
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+    depends_on:
+      - db
+      - chatbot
+    networks:
+      - tpcrop-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    container_name: tpcrop-nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - db
+    networks:
+      - tpcrop-network
