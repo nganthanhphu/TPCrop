@@ -1,5 +1,5 @@
 import os
-
+import torch
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -16,9 +16,11 @@ CHUNK_SIZE = 600
 CHUNK_OVERLAP = 80
 separators = ["\n\n", "\n", ". ", "; ", ", ", " ", ""]
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 embeddings = HuggingFaceEmbeddings(
     model_name=os.getenv("EMBEDDINGS_MODEL_NAME"),
-    model_kwargs={"device": "cuda"},
+    model_kwargs={"device": device},
     encode_kwargs={"normalize_embeddings": True, "batch_size": 32}
 )
 
